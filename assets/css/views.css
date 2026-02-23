@@ -1,0 +1,306 @@
+/* Estilos generales para las vistas */
+.view-container {
+    background-color: transparent;
+    width: 100%;
+}
+
+.view-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 24px;
+}
+
+.view-title-block h1 {
+    font-size: 28px;
+    font-weight: 700;
+    color: #111827;
+    margin: 0 0 8px 0;
+}
+
+.view-title-block p {
+    font-size: 14px;
+    color: #6b7280;
+    margin: 0;
+}
+
+.breadcrumb {
+    font-size: 12px;
+    color: #6b7280;
+    margin-bottom: 24px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.breadcrumb span.active {
+    font-weight: 600;
+    color: #111827;
+}
+
+/* Header Actions */
+.header-actions {
+    display: flex;
+    gap: 16px;
+    align-items: center;
+}
+
+.search-box {
+    position: relative;
+    width: 280px;
+}
+
+.search-box input {
+    width: 100%;
+    padding: 10px 16px 10px 40px;
+    border: none;
+    background-color: #f9fafb;
+    border-radius: 8px;
+    font-family: 'Inter', sans-serif;
+    font-size: 14px;
+    color: #374151;
+    box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.05);
+}
+
+.search-box i {
+    position: absolute;
+    left: 14px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: #9ca3af;
+    font-size: 14px;
+}
+
+.btn-notifications {
+    background: none;
+    border: none;
+    color: #4b5563;
+    font-size: 20px;
+    cursor: pointer;
+    position: relative;
+}
+
+.btn-notifications::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    right: -2px;
+    width: 8px;
+    height: 8px;
+    background-color: #ef4444;
+    border-radius: 50%;
+    border: 2px solid #f3f4f6;
+}
+
+.btn-primary {
+    background-color: #39A900;
+    color: white;
+    padding: 10px 16px;
+    border: none;
+    border-radius: 8px;
+    font-family: 'Inter', sans-serif;
+    font-weight: 600;
+    font-size: 14px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    transition: background-color 0.2s ease;
+}
+
+.btn-primary:hover {
+    background-color: #007832;
+}
+
+/* Tables */
+.table-card {
+    background-color: white;
+    border-radius: 12px;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+    overflow: hidden;
+    margin-bottom: 24px;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    text-align: left;
+}
+
+thead {
+    background-color: #ffffff;
+    border-bottom: 1px solid #e5e7eb;
+}
+
+th {
+    padding: 16px 24px;
+    font-size: 11px;
+    font-weight: 700;
+    color: #6b7280;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+td {
+    padding: 16px 24px;
+    font-size: 14px;
+    color: #111827;
+    border-bottom: 1px solid #f3f4f6;
+    vertical-align: middle;
+}
+
+tbody tr:last-child td {
+    border-bottom: none;
+}
+
+tbody tr:hover {
+    background-color: #f9fafb;
+}
+
+/* Empty State Adjustments for Tables */
+.empty-table-message {
+    text-align: center;
+    padding: 40px;
+    color: #6b7280;
+    font-size: 14px;
+    font-style: italic;
+}
+
+/* Table Actions */
+.table-actions {
+    display: flex;
+    gap: 8px;
+}
+
+.btn-action {
+    background: none;
+    border: none;
+    padding: 6px;
+    border-radius: 6px;
+    cursor: pointer;
+    color: #6b7280;
+    transition: all 0.2s;
+}
+
+.btn-action.edit:hover {
+    color: #39A900;
+    background-color: #f0fdf4;
+}
+
+.btn-action.delete:hover {
+    color: #ef4444;
+    background-color: #fef2f2;
+}
+
+.btn-action.details:hover {
+    color: #007832;
+    background-color: #ecfdf5;
+}
+
+/* Status Badges */
+.status-badge {
+    padding: 4px 10px;
+    border-radius: 20px;
+    font-size: 11px;
+    font-weight: 600;
+}
+
+.status-badge.active {
+    background-color: #dcfce7;
+    color: #39A900;
+    /* Adjusted from default green to SENA primary */
+}
+
+.status-badge.maintenance {
+    background-color: #f3f4f6;
+    color: #4b5563;
+}
+
+/* Bottom Grid (Map & Stats) */
+.bottom-grid {
+    display: grid;
+    grid-template-columns: 2fr 1fr;
+    gap: 24px;
+}
+
+.map-card {
+    background-color: #e5e7eb;
+    border-radius: 12px;
+    height: 240px;
+    position: relative;
+    overflow: hidden;
+    background-image: url('https://via.placeholder.com/800x400.png?text=Mapa+de+Sedes');
+    background-size: cover;
+    background-position: center;
+}
+
+.map-overlay {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    padding: 24px;
+    background: linear-gradient(transparent, rgba(0, 0, 0, 0.7));
+    color: white;
+}
+
+.map-overlay h3 {
+    margin: 0 0 4px 0;
+    font-size: 18px;
+}
+
+.map-overlay p {
+    margin: 0;
+    font-size: 13px;
+    opacity: 0.9;
+}
+
+.stats-card {
+    background-color: #39A900;
+    /* Was #2563eb */
+    border-radius: 12px;
+    padding: 24px;
+    color: white;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.stats-icon {
+    font-size: 32px;
+    opacity: 0.8;
+}
+
+.stats-title h3 {
+    margin: 0 0 4px 0;
+    font-size: 16px;
+    font-weight: 600;
+}
+
+.stats-title p {
+    margin: 0;
+    font-size: 12px;
+    opacity: 0.8;
+}
+
+.stats-value {
+    font-size: 48px;
+    font-weight: 700;
+    margin: 16px 0;
+}
+
+.progress-bar-container {
+    width: 100%;
+    height: 6px;
+    background-color: rgba(255, 255, 255, 0.2);
+    border-radius: 3px;
+    overflow: hidden;
+}
+
+.progress-bar-fill {
+    height: 100%;
+    background-color: white;
+    border-radius: 3px;
+    width: 84%;
+    /* Default based on image */
+}

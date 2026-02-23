@@ -1,0 +1,230 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+
+.sidebar {
+    width: 260px;
+    height: 100vh;
+    background-color: #ffffff;
+    border-right: 1px solid #e5e7eb;
+    display: flex;
+    flex-direction: column;
+    font-family: 'Inter', sans-serif;
+    position: fixed;
+    top: 0;
+    left: 0;
+    overflow-y: auto;
+}
+
+/* Custom Scrollbar for sidebar */
+.sidebar::-webkit-scrollbar {
+    width: 6px;
+}
+
+.sidebar::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+.sidebar::-webkit-scrollbar-thumb {
+    background-color: #e5e7eb;
+    border-radius: 10px;
+}
+
+/* Header / Logo */
+.sidebar-header {
+    padding: 24px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.logo-box {
+    width: 40px;
+    height: 40px;
+    background: linear-gradient(135deg, #39A900, #007832);
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-weight: 700;
+    font-size: 20px;
+}
+
+.logo-text h2 {
+    margin: 0;
+    font-size: 18px;
+    font-weight: 700;
+    color: #111827;
+    letter-spacing: 0.5px;
+}
+
+.logo-text p {
+    margin: 0;
+    font-size: 11px;
+    font-weight: 600;
+    color: #6b7280;
+    letter-spacing: 1px;
+}
+
+/* Menu */
+.sidebar-menu {
+    flex: 1;
+    padding: 0 16px;
+}
+
+.menu-group {
+    margin-bottom: 24px;
+}
+
+.menu-group h3 {
+    font-size: 11px;
+    font-weight: 600;
+    color: #9ca3af;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin: 0 0 12px 12px;
+}
+
+.menu-group ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.menu-group ul li {
+    margin-bottom: 4px;
+}
+
+.menu-group ul li a {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 10px 12px;
+    border-radius: 8px;
+    color: #4b5563;
+    text-decoration: none;
+    font-size: 14px;
+    font-weight: 500;
+    transition: all 0.2s ease;
+}
+
+.menu-group ul li a i {
+    font-size: 16px;
+    width: 20px;
+    text-align: center;
+    color: #9ca3af;
+    transition: color 0.2s ease;
+}
+
+.menu-group ul li a:hover {
+    background-color: #f3f4f6;
+    color: #111827;
+}
+
+.menu-group ul li a:hover i {
+    color: #111827;
+}
+
+/* Active State */
+.menu-group ul li.active a {
+    background-color: #f0fdf4;
+    color: #39A900;
+    position: relative;
+}
+
+.menu-group ul li.active a::before {
+    content: '';
+    position: absolute;
+    left: -16px;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 4px;
+    height: 70%;
+    background-color: #39A900;
+    border-radius: 0 4px 4px 0;
+}
+
+.menu-group ul li.active a i {
+    color: #39A900;
+}
+
+/* Footer */
+.sidebar-footer {
+    padding: 24px 16px;
+    border-top: 1px solid #e5e7eb;
+}
+
+.btn-config {
+    width: 100%;
+    padding: 12px;
+    background-color: #39A900;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    font-family: inherit;
+    font-size: 14px;
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    cursor: pointer;
+    margin-bottom: 20px;
+    transition: background-color 0.2s ease;
+}
+
+.btn-config:hover {
+    background-color: #007832;
+}
+
+.user-profile {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    background-color: #f9fafb;
+    padding: 12px;
+    border-radius: 8px;
+}
+
+.user-avatar .avatar-placeholder {
+    width: 36px;
+    height: 36px;
+    background-color: #ffedd5;
+    color: #ea580c;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 600;
+    font-size: 14px;
+}
+
+.user-info {
+    flex: 1;
+}
+
+.user-info h4 {
+    margin: 0;
+    font-size: 13px;
+    font-weight: 600;
+    color: #111827;
+}
+
+.user-info p {
+    margin: 0;
+    font-size: 11px;
+    color: #6b7280;
+}
+
+.btn-logout {
+    background: none;
+    border: none;
+    color: #9ca3af;
+    cursor: pointer;
+    font-size: 16px;
+    padding: 4px;
+    transition: color 0.2s ease;
+}
+
+.btn-logout:hover {
+    color: #ef4444;
+}

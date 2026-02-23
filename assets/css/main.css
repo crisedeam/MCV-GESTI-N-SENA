@@ -1,0 +1,20 @@
+body {
+    margin: 0;
+    padding: 0;
+    background-color: #f3f4f6;
+    /* Light gray background based on image bg */
+    font-family: 'Inter', sans-serif;
+}
+
+.main-container {
+    display: flex;
+}
+
+.content-area {
+    margin-left: 260px;
+    /* Same width as sidebar */
+    padding: 30px;
+    width: calc(100% - 260px);
+    min-height: 100vh;
+    box-sizing: border-box;
+}
