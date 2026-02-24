@@ -29,51 +29,7 @@
 <script src='https://cdn.jsdelivr.net/npm/fullcalendar@5.11.3/main.min.js'></script>
 <script src='https://cdn.jsdelivr.net/npm/fullcalendar@5.11.3/locales-all.min.js'></script>
 
-<style>
-    #calendar {
-        max-width: 100%;
-        margin: 0 auto;
-        font-family: 'Inter', sans-serif;
-    }
-    .fc-event {
-        cursor: pointer;
-        padding: 4px;
-        white-space: pre-wrap; /* Permite saltos de linea en el titulo (\n) */
-        font-size: 0.85em;
-        line-height: 1.3;
-    }
-    .fc-header-toolbar {
-        margin-bottom: 20px !important;
-    }
-    .fc-toolbar-title {
-        font-family: 'Outfit', sans-serif;
-        color: #39A900;
-        font-weight: 600;
-    }
-    .fc-button-primary {
-        background-color: #39A900 !important;
-        border-color: #39A900 !important;
-    }
-    .fc-button-primary:not(:disabled):active, 
-    .fc-button-primary:not(:disabled).fc-button-active {
-        background-color: #2e8b00 !important;
-        border-color: #2e8b00 !important;
-    }
-    /* Estilos de impresion */
-    @media print {
-        .sidebar, .top-header, .breadcrumb, .view-header, .btn-primary {
-            display: none !important;
-        }
-        .main-content {
-            margin-left: 0 !important;
-            padding: 0 !important;
-            width: 100% !important;
-        }
-        #calendar {
-            width: 100%;
-        }
-    }
-</style>
+<link rel="stylesheet" href="assets/css/calendar.css">
 
 <script>
     document.addEventListener('DOMContentLoaded', function() {
@@ -92,6 +48,10 @@
             slotMaxTime: '22:00:00', // Horario de noche Sena
             allDaySlot: false,
             events: <?php echo $eventosJson; ?>,
+            dateClick: function(info) {
+                // Redirigir a la vista de registrar asignación con la fecha (y hora)
+                window.location.href = '?controller=Asignacion&action=register&date=' + encodeURIComponent(info.dateStr);
+            },
             eventClick: function(info) {
                 alert('Detalles del evento:\n\n' + info.event.title);
             },

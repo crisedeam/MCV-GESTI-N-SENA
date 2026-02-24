@@ -116,6 +116,9 @@ function call($controller, $action) {
             case 'Auth':
                 $controllerObj = new AuthController();
                 break;
+            case 'Home':
+                $controllerObj = new HomeController();
+                break;
             case 'Asignacion':
                 require_once('models/Asignacion.php');
                 $controllerObj = new AsignacionController();

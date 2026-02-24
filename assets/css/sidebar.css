@@ -3,8 +3,8 @@
 .sidebar {
     width: 260px;
     height: 100vh;
-    background-color: #ffffff;
-    border-right: 1px solid #e5e7eb;
+    background-color: var(--bg-sidebar);
+    border-right: 1px solid var(--border-color);
     display: flex;
     flex-direction: column;
     font-family: 'Inter', sans-serif;
@@ -24,7 +24,7 @@
 }
 
 .sidebar::-webkit-scrollbar-thumb {
-    background-color: #e5e7eb;
+    background-color: var(--border-color);
     border-radius: 10px;
 }
 
@@ -39,7 +39,7 @@
 .logo-box {
     width: 40px;
     height: 40px;
-    background: linear-gradient(135deg, #39A900, #007832);
+    background: linear-gradient(135deg, var(--brand-primary), var(--brand-secondary));
     border-radius: 8px;
     display: flex;
     align-items: center;
@@ -53,7 +53,7 @@
     margin: 0;
     font-size: 18px;
     font-weight: 700;
-    color: #111827;
+    color: var(--text-primary);
     letter-spacing: 0.5px;
 }
 
@@ -61,7 +61,7 @@
     margin: 0;
     font-size: 11px;
     font-weight: 600;
-    color: #6b7280;
+    color: var(--text-secondary);
     letter-spacing: 1px;
 }
 
@@ -78,7 +78,7 @@
 .menu-group h3 {
     font-size: 11px;
     font-weight: 600;
-    color: #9ca3af;
+    color: var(--text-tertiary);
     text-transform: uppercase;
     letter-spacing: 1px;
     margin: 0 0 12px 12px;
@@ -100,7 +100,7 @@
     gap: 12px;
     padding: 10px 12px;
     border-radius: 8px;
-    color: #4b5563;
+    color: var(--text-secondary);
     text-decoration: none;
     font-size: 14px;
     font-weight: 500;
@@ -111,23 +111,23 @@
     font-size: 16px;
     width: 20px;
     text-align: center;
-    color: #9ca3af;
+    color: var(--text-tertiary);
     transition: color 0.2s ease;
 }
 
 .menu-group ul li a:hover {
-    background-color: #f3f4f6;
-    color: #111827;
+    background-color: var(--bg-input);
+    color: var(--text-primary);
 }
 
 .menu-group ul li a:hover i {
-    color: #111827;
+    color: var(--text-primary);
 }
 
 /* Active State */
 .menu-group ul li.active a {
-    background-color: #f0fdf4;
-    color: #39A900;
+    background-color: var(--brand-primary-light);
+    color: var(--brand-primary);
     position: relative;
 }
 
@@ -139,25 +139,25 @@
     transform: translateY(-50%);
     width: 4px;
     height: 70%;
-    background-color: #39A900;
+    background-color: var(--brand-primary);
     border-radius: 0 4px 4px 0;
 }
 
 .menu-group ul li.active a i {
-    color: #39A900;
+    color: var(--brand-primary);
 }
 
 /* Footer */
 .sidebar-footer {
     padding: 24px 16px;
-    border-top: 1px solid #e5e7eb;
+    border-top: 1px solid var(--border-color);
 }
 
 .btn-config {
     width: 100%;
     padding: 12px;
-    background-color: #39A900;
-    color: white;
+    background-color: var(--brand-primary);
+    color: var(--text-inverse);
     border: none;
     border-radius: 8px;
     font-family: inherit;
@@ -173,14 +173,14 @@
 }
 
 .btn-config:hover {
-    background-color: #007832;
+    background-color: var(--brand-primary-hover);
 }
 
 .user-profile {
     display: flex;
     align-items: center;
     gap: 12px;
-    background-color: #f9fafb;
+    background-color: var(--bg-input);
     padding: 12px;
     border-radius: 8px;
 }
@@ -188,8 +188,8 @@
 .user-avatar .avatar-placeholder {
     width: 36px;
     height: 36px;
-    background-color: #ffedd5;
-    color: #ea580c;
+    background-color: var(--warning-bg);
+    color: var(--warning);
     border-radius: 50%;
     display: flex;
     align-items: center;
@@ -206,19 +206,19 @@
     margin: 0;
     font-size: 13px;
     font-weight: 600;
-    color: #111827;
+    color: var(--text-primary);
 }
 
 .user-info p {
     margin: 0;
     font-size: 11px;
-    color: #6b7280;
+    color: var(--text-secondary);
 }
 
 .btn-logout {
     background: none;
     border: none;
-    color: #9ca3af;
+    color: var(--text-tertiary);
     cursor: pointer;
     font-size: 16px;
     padding: 4px;
@@ -226,5 +226,5 @@
 }
 
 .btn-logout:hover {
-    color: #ef4444;
+    color: var(--danger);
 }

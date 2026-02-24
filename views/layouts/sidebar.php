@@ -1,6 +1,6 @@
 <?php
 // Sidebar layout
-$currentController = isset($_GET['controller']) ? $_GET['controller'] : 'Sede';
+$currentController = isset($_GET['controller']) ? $_GET['controller'] : 'Home';
 
 function isActive($menu, $current) {
     return $menu === $current ? 'class="active"' : '';
@@ -23,6 +23,7 @@ function isActive($menu, $current) {
             <div class="menu-group">
                 <h3>Administración</h3>
                 <ul>
+                    <li <?= isActive('Home', $currentController) ?>><a href="?controller=Home&action=index"><i class="fa-solid fa-house"></i> Inicio</a></li>
                     <li <?= isActive('Sede', $currentController) ?>><a href="?controller=Sede&action=index"><i class="fa-solid fa-building"></i> Sedes</a></li>
                     <li <?= isActive('CentroFormacion', $currentController) ?>><a href="?controller=CentroFormacion&action=index"><i class="fa-solid fa-city"></i> Centros de Formación</a></li>
                     <li <?= isActive('Coordinacion', $currentController) ?>><a href="?controller=Coordinacion&action=index"><i class="fa-solid fa-sitemap"></i> Coordinaciones</a></li>
@@ -52,7 +53,7 @@ function isActive($menu, $current) {
             <div class="menu-group">
                 <h3>Mi Espacio</h3>
                 <ul>
-                    <li <?= isActive('Sede', $currentController) ?>><a href="?controller=Sede&action=index"><i class="fa-solid fa-house-user"></i> Inicio</a></li>
+                    <li <?= isActive('Home', $currentController) ?>><a href="?controller=Home&action=index"><i class="fa-solid fa-house-user"></i> Inicio</a></li>
                     <li <?= isActive('Asignacion', $currentController) ?>><a href="?controller=Asignacion&action=index"><i class="fa-solid fa-calendar-check"></i> Mi Horario</a></li>
                 </ul>
             </div>
@@ -60,6 +61,9 @@ function isActive($menu, $current) {
     </div>
 
     <div class="sidebar-footer">
+        <button id="themeToggleBtn" class="btn-config" style="background-color: var(--bg-input); color: var(--text-primary); margin-bottom: 10px; border: 1px solid var(--border-color);">
+            <i class="fa-solid fa-moon"></i> Modo Oscuro
+        </button>
         <button class="btn-config">
             <i class="fa-solid fa-gear"></i> Configuración
         </button>

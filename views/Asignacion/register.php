@@ -1,3 +1,21 @@
+<?php
+$selectedDate = '';
+$selectedTime = '';
+$selectedDayOfWeek = -1;
+
+if (isset($_GET['date'])) {
+    try {
+        $dt = new DateTime($_GET['date']);
+        $selectedDate = $dt->format('Y-m-d');
+        if (strpos($_GET['date'], 'T') !== false) {
+            $selectedTime = $dt->format('H:i');
+        }
+        $selectedDayOfWeek = (int)$dt->format('w');
+    } catch (Exception $e) {
+        // Ignorar formato invalido
+    }
+}
+?>
 <div class='view-container'>
     <div class='breadcrumb'>
         <span>Ejecución</span>
@@ -76,31 +94,31 @@
                     <div class='form-group full-width'>
                         <label>Días de Formación</label>
                         <div class='checkbox-group' style='display: flex; gap: 15px; margin-top: 8px; flex-wrap: wrap;'>
-                            <label><input type="checkbox" name="dias[]" value="1" checked> Lunes</label>
-                            <label><input type="checkbox" name="dias[]" value="2" checked> Martes</label>
-                            <label><input type="checkbox" name="dias[]" value="3" checked> Miércoles</label>
-                            <label><input type="checkbox" name="dias[]" value="4" checked> Jueves</label>
-                            <label><input type="checkbox" name="dias[]" value="5" checked> Viernes</label>
-                            <label><input type="checkbox" name="dias[]" value="6"> Sábado</label>
-                            <label><input type="checkbox" name="dias[]" value="0"> Domingo</label>
+                            <label><input type="checkbox" name="dias[]" value="1" <?php echo ($selectedDayOfWeek == -1 || $selectedDayOfWeek == 1) ? 'checked' : ''; ?>> Lunes</label>
+                            <label><input type="checkbox" name="dias[]" value="2" <?php echo ($selectedDayOfWeek == -1 || $selectedDayOfWeek == 2) ? 'checked' : ''; ?>> Martes</label>
+                            <label><input type="checkbox" name="dias[]" value="3" <?php echo ($selectedDayOfWeek == -1 || $selectedDayOfWeek == 3) ? 'checked' : ''; ?>> Miércoles</label>
+                            <label><input type="checkbox" name="dias[]" value="4" <?php echo ($selectedDayOfWeek == -1 || $selectedDayOfWeek == 4) ? 'checked' : ''; ?>> Jueves</label>
+                            <label><input type="checkbox" name="dias[]" value="5" <?php echo ($selectedDayOfWeek == -1 || $selectedDayOfWeek == 5) ? 'checked' : ''; ?>> Viernes</label>
+                            <label><input type="checkbox" name="dias[]" value="6" <?php echo ($selectedDayOfWeek == 6) ? 'checked' : ''; ?>> Sábado</label>
+                            <label><input type="checkbox" name="dias[]" value="0" <?php echo ($selectedDayOfWeek == 0) ? 'checked' : ''; ?>> Domingo</label>
                         </div>
                     </div>
 
                     <div class='form-group full-width' style='display: grid; grid-template-columns: 1fr 1fr; gap: 20px;'>
                         <div>
                             <label for='fecha_inicio'>Fecha Límite Inicio</label>
-                            <input type='date' id='fecha_inicio' name='fecha_inicio' class='form-control' required>
+                            <input type='date' id='fecha_inicio' name='fecha_inicio' class='form-control' value='<?php echo htmlspecialchars($selectedDate); ?>' required>
                         </div>
                         <div>
                             <label for='fecha_fin'>Fecha Límite Fin</label>
-                            <input type='date' id='fecha_fin' name='fecha_fin' class='form-control' required>
+                            <input type='date' id='fecha_fin' name='fecha_fin' class='form-control' value='<?php echo htmlspecialchars($selectedDate); ?>' required>
                         </div>
                     </div>
 
                     <div class='form-group full-width' style='display: grid; grid-template-columns: 1fr 1fr; gap: 20px;'>
                         <div>
                             <label for='hora_inicio'>Hora de Inicio (Diaria)</label>
-                            <input type='time' id='hora_inicio' name='hora_inicio' class='form-control' required>
+                            <input type='time' id='hora_inicio' name='hora_inicio' class='form-control' value='<?php echo htmlspecialchars($selectedTime); ?>' required>
                         </div>
                         <div>
                             <label for='hora_fin'>Hora de Fin (Diaria)</label>

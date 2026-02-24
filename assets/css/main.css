@@ -1,9 +1,83 @@
+:root {
+    /* Base Colors - Light Theme */
+    --bg-body: #f3f4f6;
+    --bg-overlay: rgba(255, 255, 255, 0.85);
+    --bg-card: #ffffff;
+    --bg-card-hover: #f8fafc;
+    --bg-sidebar: #ffffff;
+    --bg-input: #f9fafb;
+    --bg-table-header: #ffffff;
+
+    /* Text Colors */
+    --text-primary: #111827;
+    --text-secondary: #6b7280;
+    --text-tertiary: #9ca3af;
+    --text-inverse: #ffffff;
+
+    /* Border Colors */
+    --border-color: #e5e7eb;
+    --border-color-light: #f3f4f6;
+
+    /* Brand Colors */
+    --brand-primary: #39A900;
+    --brand-primary-hover: #2e8b00;
+    --brand-primary-light: #e6fced;
+    --brand-secondary: #007832;
+
+    /* Status Colors */
+    --danger: #ef4444;
+    --danger-bg: #fee2e2;
+    --danger-hover: #fef2f2;
+    --warning: #f59e0b;
+    --warning-bg: #fef3c7;
+    --info: #2563eb;
+    --info-bg: #dbeafe;
+}
+
+body.dark-theme {
+    /* Base Colors - Dark Theme */
+    --bg-body: #111827;
+    --bg-overlay: rgba(17, 24, 39, 0.90);
+    --bg-card: #1f2937;
+    --bg-card-hover: #374151;
+    --bg-sidebar: #1f2937;
+    --bg-input: #374151;
+    --bg-table-header: #1f2937;
+
+    /* Text Colors */
+    --text-primary: #f9fafb;
+    --text-secondary: #9ca3af;
+    --text-tertiary: #6b7280;
+    --text-inverse: #111827;
+
+    /* Border Colors */
+    --border-color: #374151;
+    --border-color-light: #1f2937;
+
+    /* Brand Colors */
+    /* Adjusting slightly for better contrast on dark */
+    --brand-primary: #3dbd00;
+    --brand-primary-hover: #4ae000;
+    --brand-primary-light: #064016;
+    --brand-secondary: #065725;
+
+    /* Status Colors */
+    --danger: #f87171;
+    --danger-bg: #451a1a;
+    --danger-hover: #3b1414;
+    --warning: #fbbf24;
+    --warning-bg: #45320c;
+    --info: #60a5fa;
+    --info-bg: #1e3a5f;
+}
+
 body {
     margin: 0;
     padding: 0;
-    background-color: #f3f4f6;
-    /* Light gray background based on image bg */
+    background-color: var(--bg-body);
+    color: var(--text-primary);
     font-family: 'Inter', sans-serif;
+    transition: background-color 0.3s ease, color 0.3s ease;
 }
 
 .main-container {

@@ -20,14 +20,15 @@ if (!isset($_SESSION['usuario_id'])) {
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>SENA - Gestión de Ambientes</title>
+    <?php $vs = '?v=' . time(); ?>
     <!-- General Layout CSS -->
-    <link rel="stylesheet" href="assets/css/main.css">
+    <link rel="stylesheet" href="assets/css/main.css<?= $vs ?>">
     <!-- Sidebar CSS -->
-    <link rel="stylesheet" href="assets/css/sidebar.css">
+    <link rel="stylesheet" href="assets/css/sidebar.css<?= $vs ?>">
     <!-- Views CSS -->
-    <link rel="stylesheet" href="assets/css/views.css?v=4">
+    <link rel="stylesheet" href="assets/css/views.css<?= $vs ?>">
     <!-- Forms CSS -->
-    <link rel="stylesheet" href="assets/css/forms.css">
+    <link rel="stylesheet" href="assets/css/forms.css<?= $vs ?>">
     <!-- Icons (Font Awesome) -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
@@ -51,6 +52,41 @@ if (!isset($_SESSION['usuario_id'])) {
         </div>
     <?php endif; ?>
 
+    <!-- MODO OSCURO (DARK THEME) SCRIPT -->
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const themeToggleBtn = document.getElementById('themeToggleBtn');
+            const currentTheme = localStorage.getItem('theme');
+
+            // Apply saved theme on load
+            if (currentTheme) {
+                document.body.classList.add(currentTheme);
+                if (currentTheme === 'dark-theme' && themeToggleBtn) {
+                    themeToggleBtn.innerHTML = '<i class="fa-solid fa-sun"></i> Modo Claro';
+                }
+            }
+
+            // Toggle theme on click
+            if(themeToggleBtn) {
+                themeToggleBtn.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    document.body.classList.toggle('dark-theme');
+                    document.body.classList.remove('light-theme');
+                    let theme = 'light-theme';
+                    
+                    if (document.body.classList.contains('dark-theme')) {
+                        theme = 'dark-theme';
+                        themeToggleBtn.innerHTML = '<i class="fa-solid fa-sun"></i> Modo Claro';
+                    } else {
+                        themeToggleBtn.innerHTML = '<i class="fa-solid fa-moon"></i> Modo Oscuro';
+                        document.body.classList.add('light-theme');
+                    }
+                    
+                    localStorage.setItem('theme', theme);
+                });
+            }
+        });
+    </script>
 </body>
 </html>
 <?php

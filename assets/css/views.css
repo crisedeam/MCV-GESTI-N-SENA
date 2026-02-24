@@ -2,7 +2,7 @@
 .view-container {
     background-color: transparent;
     width: 100%;
-    background-image: linear-gradient(rgba(255, 255, 255, 0.85), rgba(255, 255, 255, 0.85)), url('../img/colombia_bg.png');
+    background-image: linear-gradient(var(--bg-overlay), var(--bg-overlay)), url('../img/colombia_bg.png');
     background-repeat: repeat;
     background-size: 400px;
     background-position: center top;
@@ -15,24 +15,26 @@
     justify-content: space-between;
     align-items: flex-start;
     margin-bottom: 24px;
+    gap: 16px;
 }
 
 .view-title-block h1 {
     font-size: 28px;
     font-weight: 700;
-    color: #111827;
+    color: var(--text-primary);
     margin: 0 0 8px 0;
+    letter-spacing: -0.5px;
 }
 
 .view-title-block p {
     font-size: 14px;
-    color: #6b7280;
+    color: var(--text-secondary);
     margin: 0;
 }
 
 .breadcrumb {
     font-size: 12px;
-    color: #6b7280;
+    color: var(--text-secondary);
     margin-bottom: 24px;
     display: flex;
     align-items: center;
@@ -41,7 +43,7 @@
 
 .breadcrumb span.active {
     font-weight: 600;
-    color: #111827;
+    color: var(--text-primary);
 }
 
 /* Header Actions */
@@ -49,23 +51,33 @@
     display: flex;
     gap: 16px;
     align-items: center;
+    flex-wrap: wrap;
 }
 
 .search-box {
     position: relative;
     width: 280px;
+    max-width: 100%;
 }
 
 .search-box input {
     width: 100%;
     padding: 10px 16px 10px 40px;
-    border: none;
-    background-color: #f9fafb;
+    border: 1px solid var(--border-color);
+    background-color: var(--bg-input);
     border-radius: 8px;
     font-family: 'Inter', sans-serif;
     font-size: 14px;
-    color: #374151;
+    color: var(--text-primary);
     box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.05);
+    transition: all 0.2s ease;
+}
+
+.search-box input:focus {
+    outline: none;
+    border-color: var(--brand-primary);
+    background-color: var(--bg-card);
+    box-shadow: 0 0 0 3px rgba(57, 169, 0, 0.2);
 }
 
 .search-box i {
@@ -73,14 +85,14 @@
     left: 14px;
     top: 50%;
     transform: translateY(-50%);
-    color: #9ca3af;
+    color: var(--text-tertiary);
     font-size: 14px;
 }
 
 .btn-notifications {
     background: none;
     border: none;
-    color: #4b5563;
+    color: var(--text-secondary);
     font-size: 20px;
     cursor: pointer;
     position: relative;
@@ -93,14 +105,14 @@
     right: -2px;
     width: 8px;
     height: 8px;
-    background-color: #ef4444;
+    background-color: var(--danger);
     border-radius: 50%;
-    border: 2px solid #f3f4f6;
+    border: 2px solid var(--bg-body);
 }
 
 .btn-primary {
-    background-color: #39A900;
-    color: white;
+    background-color: var(--brand-primary);
+    color: var(--text-inverse);
     padding: 10px 16px;
     border: none;
     border-radius: 8px;
@@ -111,20 +123,34 @@
     display: flex;
     align-items: center;
     gap: 8px;
-    transition: background-color 0.2s ease;
+    transition: all 0.2s ease;
+    box-shadow: 0 2px 4px rgba(57, 169, 0, 0.2);
 }
 
 .btn-primary:hover {
-    background-color: #007832;
+    background-color: var(--brand-primary-hover);
+    transform: translateY(-1px);
+    box-shadow: 0 4px 6px rgba(57, 169, 0, 0.3);
+}
+
+.btn-primary:active {
+    transform: translateY(1px);
+    box-shadow: 0 1px 2px rgba(57, 169, 0, 0.2);
 }
 
 /* Tables */
 .table-card {
-    background-color: white;
+    background-color: var(--bg-card);
     border-radius: 12px;
-    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+    border: 1px solid var(--border-color);
     overflow: hidden;
     margin-bottom: 24px;
+    transition: box-shadow 0.3s ease;
+}
+
+.table-card:hover {
+    box-shadow: 0 10px 15px rgba(0, 0, 0, 0.05);
 }
 
 table {
@@ -134,15 +160,15 @@ table {
 }
 
 thead {
-    background-color: #ffffff;
-    border-bottom: 1px solid #e5e7eb;
+    background-color: var(--bg-table-header);
+    border-bottom: 1px solid var(--border-color);
 }
 
 th {
     padding: 16px 24px;
     font-size: 11px;
     font-weight: 700;
-    color: #6b7280;
+    color: var(--text-secondary);
     text-transform: uppercase;
     letter-spacing: 1px;
 }
@@ -150,9 +176,13 @@ th {
 td {
     padding: 16px 24px;
     font-size: 14px;
-    color: #111827;
-    border-bottom: 1px solid #f3f4f6;
+    color: var(--text-primary);
+    border-bottom: 1px solid var(--border-color-light);
     vertical-align: middle;
+}
+
+tbody tr {
+    transition: background-color 0.15s ease;
 }
 
 tbody tr:last-child td {
@@ -160,14 +190,14 @@ tbody tr:last-child td {
 }
 
 tbody tr:hover {
-    background-color: #f9fafb;
+    background-color: var(--bg-card-hover);
 }
 
 /* Empty State Adjustments for Tables */
 .empty-table-message {
     text-align: center;
     padding: 40px;
-    color: #6b7280;
+    color: var(--text-secondary);
     font-size: 14px;
     font-style: italic;
 }
@@ -184,23 +214,23 @@ tbody tr:hover {
     padding: 6px;
     border-radius: 6px;
     cursor: pointer;
-    color: #6b7280;
+    color: var(--text-secondary);
     transition: all 0.2s;
 }
 
 .btn-action.edit:hover {
-    color: #39A900;
-    background-color: #f0fdf4;
+    color: var(--brand-primary);
+    background-color: var(--brand-primary-light);
 }
 
 .btn-action.delete:hover {
-    color: #ef4444;
-    background-color: #fef2f2;
+    color: var(--danger);
+    background-color: var(--danger-bg);
 }
 
 .btn-action.details:hover {
-    color: #007832;
-    background-color: #ecfdf5;
+    color: var(--brand-secondary);
+    background-color: var(--brand-primary-light);
 }
 
 /* Status Badges */
@@ -212,14 +242,13 @@ tbody tr:hover {
 }
 
 .status-badge.active {
-    background-color: #dcfce7;
-    color: #39A900;
-    /* Adjusted from default green to SENA primary */
+    background-color: var(--brand-primary-light);
+    color: var(--brand-primary);
 }
 
 .status-badge.maintenance {
-    background-color: #f3f4f6;
-    color: #4b5563;
+    background-color: var(--border-color-light);
+    color: var(--text-secondary);
 }
 
 /* Bottom Grid (Map & Stats) */
@@ -262,11 +291,10 @@ tbody tr:hover {
 }
 
 .stats-card {
-    background-color: #39A900;
-    /* Was #2563eb */
+    background-color: var(--brand-primary);
     border-radius: 12px;
     padding: 24px;
-    color: white;
+    color: var(--text-inverse);
     display: flex;
     flex-direction: column;
     justify-content: space-between;
@@ -305,10 +333,9 @@ tbody tr:hover {
 
 .progress-bar-fill {
     height: 100%;
-    background-color: white;
+    background-color: var(--text-inverse);
     border-radius: 3px;
     width: 84%;
-    /* Default based on image */
 }
 
 /* Dashboard Mini Stats */
@@ -320,7 +347,7 @@ tbody tr:hover {
 }
 
 .stat-card {
-    background-color: #ffffff;
+    background-color: var(--bg-card);
     border-radius: 4px;
     padding: 24px;
     flex: 1;
@@ -331,22 +358,22 @@ tbody tr:hover {
     text-align: center;
     gap: 12px;
     box-shadow: none;
-    border: 1px solid #d1d5db;
-    border-top: 4px solid #39A900;
+    border: 1px solid var(--border-color);
+    border-top: 4px solid var(--brand-primary);
     transition: all 0.2s ease-in-out;
 }
 
 .stat-card:hover {
-    border-color: #39A900;
-    background-color: #f8fafc;
+    border-color: var(--brand-primary);
+    background-color: var(--bg-card-hover);
 }
 
 .stat-icon {
     width: 60px;
     height: 60px;
     border-radius: 50%;
-    background-color: #f0fdf4;
-    color: #39A900;
+    background-color: var(--brand-primary-light);
+    color: var(--brand-primary);
     display: flex;
     align-items: center;
     justify-content: center;
@@ -362,7 +389,7 @@ tbody tr:hover {
 .stat-details h3 {
     margin: 0;
     font-size: 14px;
-    color: #6b7280;
+    color: var(--text-secondary);
     font-weight: 600;
     text-transform: uppercase;
     letter-spacing: 0.5px;
@@ -372,5 +399,29 @@ tbody tr:hover {
     margin: 8px 0 0 0;
     font-size: 32px;
     font-weight: 700;
-    color: #111827;
+    color: var(--text-primary);
+}
+
+/* Responsive Adjustments */
+@media (max-width: 768px) {
+    .view-header {
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    .header-actions {
+        flex-direction: column;
+        align-items: stretch;
+        width: 100%;
+        gap: 16px;
+    }
+
+    .search-box {
+        max-width: 100%;
+    }
+
+    .btn-primary {
+        justify-content: center;
+        width: 100%;
+    }
 }
