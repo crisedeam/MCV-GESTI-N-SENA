@@ -1,0 +1,1 @@
+<?php require_once "connection.php"; $db = DB::getConnect(); $stmt = $db->query("DESCRIBE asignacion"); print_r($stmt->fetchAll(PDO::FETCH_ASSOC)); echo "\n---\n"; $stmt2 = $db->query("DESCRIBE detallexasignacion"); print_r($stmt2->fetchAll(PDO::FETCH_ASSOC)); ?>

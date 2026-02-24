@@ -18,6 +18,7 @@ class CoordinacionController {
     public function index() {
         static $listaCoordinacions = [];
         $listaCoordinacions = Coordinacion::all();
+        $totalCoordinaciones = count($listaCoordinacions);
         require_once    'views/Coordinacion/show.php';
         // TAREA:
         // - Llama al método estático all() de tu modelo para traer todos los registros.
@@ -35,7 +36,7 @@ class CoordinacionController {
     // 3. Procesar los datos y guardarlos
     public function save() {
         if($_SERVER['REQUEST_METHOD'] == 'POST'){
-            $coordinacion = new Coordinacion($_POST['coord_id'], $_POST['coord_nombre'], $_POST['CENTRO_FORMACION_cent_id']);
+            $coordinacion = new Coordinacion($_POST['coord_id'], $_POST['coord_descripcion'], $_POST['CENTRO_FORMACION_cent_id'], $_POST['coord_nombre_coordinador'], $_POST['coord_correo'], $_POST['coord_password']);
             Coordinacion::save($coordinacion);
             header('Location: ?controller=Coordinacion&action=index');
         }
@@ -66,14 +67,29 @@ class CoordinacionController {
         // - Haz require_once de 'updateshow.php'. Esto servirá para que la vista rellene los <input>.
     }
 
-    // 6. Procesar actualización en la BD
     public function update() {
         if($_SERVER['REQUEST_METHOD'] == 'POST'){
-            $coordinacion = new Coordinacion($_POST['coord_id'], $_POST['coord_nombre'], $_POST['CENTRO_FORMACION_cent_id']);
+            // Para la contraseña en actualización, si viene vacía se pasa vacía (el modelo decide si hashearla o ignorarla)
+            $password = isset($_POST['coord_password']) ? $_POST['coord_password'] : '';
+            $coordinacion = new Coordinacion($_POST['coord_id'], $_POST['coord_descripcion'], $_POST['CENTRO_FORMACION_cent_id'], $_POST['coord_nombre_coordinador'], $_POST['coord_correo'], $password);
             Coordinacion::update($coordinacion);
             header('Location: ?controller=Coordinacion&action=index');
         }
-        // TAREA:
-        // - Verifica si llegaron TODOS los campos del formulario por $_POST.
+    }
+
+    public function delete() {
+        if($_SERVER['REQUEST_METHOD'] == 'GET'){
+            try {
+                Coordinacion::delete($_GET['id']);
+                header('Location: ?controller=Coordinacion&action=index');
+            } catch (PDOException $e) {
+                if ($e->getCode() == '23000') {
+                    header('Location: ?controller=Coordinacion&action=index&error=foreign_key');
+                } else {
+                    header('Location: ?controller=Coordinacion&action=index&error=general');
+                }
+            }
+        }
+    }
 }
 ?>

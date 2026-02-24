@@ -11,6 +11,7 @@ class TituloProgramaController {
     public function index() {
         static $listaTituloProgramas = [];
         $listaTituloProgramas = TituloPrograma::all();
+        $totalTituloProgramas = count($listaTituloProgramas);
         require_once 'views/TituloPrograma/show.php';
         // TAREA: listar con all() y cargar show.php
     }
@@ -20,7 +21,7 @@ class TituloProgramaController {
     }
     public function save() {
         if($_SERVER['REQUEST_METHOD'] == 'POST'){
-            $tituloPrograma = new TituloPrograma($_POST['titpro_id'], $_POST['titpro_nombre'], $_POST['titpro_abreviatura']);
+            $tituloPrograma = new TituloPrograma($_POST['titpro_id'], $_POST['titpro_nombre']);
             TituloPrograma::save($tituloPrograma);
             header('Location: ?controller=TituloPrograma&action=index');
         }
@@ -38,7 +39,7 @@ class TituloProgramaController {
     }
     public function update() {
         if($_SERVER['REQUEST_METHOD'] == 'POST'){
-            $tituloPrograma = new TituloPrograma($_POST['titpro_id'], $_POST['titpro_nombre'], $_POST['titpro_abreviatura']);
+            $tituloPrograma = new TituloPrograma($_POST['titpro_id'], $_POST['titpro_nombre']);
             TituloPrograma::update($tituloPrograma);
             header('Location: ?controller=TituloPrograma&action=index');
         }

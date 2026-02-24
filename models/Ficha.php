@@ -1,17 +1,22 @@
 <?php 
- class Ficha {
+class Ficha {
     private $fich_id;
     private $PROGRAMA_prog_id;
     private $INSTRUCTOR_inst_id_lider;
     private $fich_jornada;
     private $COORDINACION_coord_id;
-     public function __construct($fich_id, $PROGRAMA_prog_id, $INSTRUCTOR_inst_id_lider, $fich_jornada, $COORDINACION_coord_id){
-    $this->fich_id = $fich_id;
-    $this->PROGRAMA_prog_id = $PROGRAMA_prog_id;
-    $this->INSTRUCTOR_inst_id_lider = $INSTRUCTOR_inst_id_lider;
-    $this->fich_jornada = $fich_jornada;
-    $this->COORDINACION_coord_id = $COORDINACION_coord_id;
- }
+    private $fich_fecha_ini_lectiva;
+    private $fich_fecha_fin_lectiva;
+
+    public function __construct($fich_id, $PROGRAMA_prog_id, $INSTRUCTOR_inst_id_lider, $fich_jornada, $COORDINACION_coord_id, $fich_fecha_ini_lectiva, $fich_fecha_fin_lectiva){
+        $this->fich_id = $fich_id;
+        $this->PROGRAMA_prog_id = $PROGRAMA_prog_id;
+        $this->INSTRUCTOR_inst_id_lider = $INSTRUCTOR_inst_id_lider;
+        $this->fich_jornada = $fich_jornada;
+        $this->COORDINACION_coord_id = $COORDINACION_coord_id;
+        $this->fich_fecha_ini_lectiva = $fich_fecha_ini_lectiva;
+        $this->fich_fecha_fin_lectiva = $fich_fecha_fin_lectiva;
+    }
  public function getFich_id(){
     return $this->fich_id;
  }
@@ -42,14 +47,28 @@
  public function setCOORDINACION_coord_id($COORDINACION_coord_id){
     $this->COORDINACION_coord_id = $COORDINACION_coord_id;
  }
+ public function getFich_fecha_ini_lectiva(){
+    return $this->fich_fecha_ini_lectiva;
+ }
+ public function setFich_fecha_ini_lectiva($fich_fecha_ini_lectiva){
+    $this->fich_fecha_ini_lectiva = $fich_fecha_ini_lectiva;
+ }
+ public function getFich_fecha_fin_lectiva(){
+    return $this->fich_fecha_fin_lectiva;
+ }
+ public function setFich_fecha_fin_lectiva($fich_fecha_fin_lectiva){
+    $this->fich_fecha_fin_lectiva = $fich_fecha_fin_lectiva;
+ }
  public static function save($ficha){
     $db=DB::getConnect();
-    $insert=$db->prepare('INSERT INTO ficha VALUES (:fich_id, :PROGRAMA_prog_id, :INSTRUCTOR_inst_id_lider, :fich_jornada, :COORDINACION_coord_id)');
+    $insert=$db->prepare('INSERT INTO ficha VALUES (:fich_id, :PROGRAMA_prog_id, :INSTRUCTOR_inst_id_lider, :fich_jornada, :COORDINACION_coord_id, :fich_fecha_ini_lectiva, :fich_fecha_fin_lectiva)');
     $insert->bindValue('fich_id',$ficha->getFich_id());
     $insert->bindValue('PROGRAMA_prog_id',$ficha->getPROGRAMA_prog_id());
     $insert->bindValue('INSTRUCTOR_inst_id_lider',$ficha->getINSTRUCTOR_inst_id_lider());
     $insert->bindValue('fich_jornada',$ficha->getFich_jornada());
     $insert->bindValue('COORDINACION_coord_id',$ficha->getCOORDINACION_coord_id());
+    $insert->bindValue('fich_fecha_ini_lectiva',$ficha->getFich_fecha_ini_lectiva());
+    $insert->bindValue('fich_fecha_fin_lectiva',$ficha->getFich_fecha_fin_lectiva());
     $insert->execute();
  }
  public static function all(){
@@ -57,7 +76,7 @@
     $listaFichas=[];
     $select=$db->query('SELECT * FROM ficha ORDER BY fich_id');
     foreach($select->fetchAll() as $ficha){
-        $listaFichas[]=new Ficha($ficha['fich_id'],$ficha['PROGRAMA_prog_id'],$ficha['INSTRUCTOR_inst_id_lider'],$ficha['fich_jornada'],$ficha['COORDINACION_coord_id']);
+        $listaFichas[]=new Ficha($ficha['fich_id'],$ficha['PROGRAMA_prog_id'],$ficha['INSTRUCTOR_inst_id_lider'],$ficha['fich_jornada'],$ficha['COORDINACION_coord_id'],$ficha['fich_fecha_ini_lectiva'],$ficha['fich_fecha_fin_lectiva']);
     }
     return $listaFichas; 
  }
@@ -69,16 +88,21 @@
 
     $fichaDb=$select->fetch();
 
-
-    $ficha = new Ficha ($fichaDb['fich_id'],$fichaDb['PROGRAMA_prog_id'], $fichaDb['INSTRUCTOR_inst_id_lider'], $fichaDb['fich_jornada'], $fichaDb['COORDINACION_coord_id']);
-    //var_dump($ficha);
-    //die();
-    return $ficha;
+    if ($fichaDb) {
+        $ficha = new Ficha ($fichaDb['fich_id'],$fichaDb['PROGRAMA_prog_id'], $fichaDb['INSTRUCTOR_inst_id_lider'], $fichaDb['fich_jornada'], $fichaDb['COORDINACION_coord_id'], $fichaDb['fich_fecha_ini_lectiva'], $fichaDb['fich_fecha_fin_lectiva']);
+        return $ficha;
+    }
+    return null;
  }
  public static function update($ficha){
     $db=DB::getConnect();
-    $update=$db->prepare('UPDATE ficha SET PROGRAMA_prog_id=:PROGRAMA_prog_id WHERE fich_id=:fich_id');
+    $update=$db->prepare('UPDATE ficha SET PROGRAMA_prog_id=:PROGRAMA_prog_id, INSTRUCTOR_inst_id_lider=:INSTRUCTOR_inst_id_lider, fich_jornada=:fich_jornada, COORDINACION_coord_id=:COORDINACION_coord_id, fich_fecha_ini_lectiva=:fich_fecha_ini_lectiva, fich_fecha_fin_lectiva=:fich_fecha_fin_lectiva WHERE fich_id=:fich_id');
     $update->bindValue('PROGRAMA_prog_id', $ficha->getPROGRAMA_prog_id());
+    $update->bindValue('INSTRUCTOR_inst_id_lider', $ficha->getINSTRUCTOR_inst_id_lider());
+    $update->bindValue('fich_jornada', $ficha->getFich_jornada());
+    $update->bindValue('COORDINACION_coord_id', $ficha->getCOORDINACION_coord_id());
+    $update->bindValue('fich_fecha_ini_lectiva', $ficha->getFich_fecha_ini_lectiva());
+    $update->bindValue('fich_fecha_fin_lectiva', $ficha->getFich_fecha_fin_lectiva());
     $update->bindValue('fich_id',$ficha->getFich_id());
     $update->execute();
  }

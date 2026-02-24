@@ -12,6 +12,19 @@ class FichaController {
     public function index() { 
         static $listaFichas = [];
         $listaFichas = Ficha::all();
+        
+        // Calcular métricas para el dashboard
+        $totalFichas = count($listaFichas);
+        $totalDiurnas = 0;
+        $totalNocturnas = 0;
+        $totalMixtas = 0;
+        
+        foreach($listaFichas as $f) {
+            if ($f->getFich_jornada() == 'Diurna') $totalDiurnas++;
+            else if ($f->getFich_jornada() == 'Nocturna') $totalNocturnas++;
+            else if ($f->getFich_jornada() == 'Mixta') $totalMixtas++;
+        }
+        
         require_once 'views/Ficha/show.php';
     }
     public function register() { 
@@ -19,7 +32,7 @@ class FichaController {
     }
     public function save() { 
         if($_SERVER['REQUEST_METHOD'] == 'POST'){
-            $ficha = new Ficha($_POST['ficha_id'], $_POST['ficha_numero'], $_POST['ficha_nombre'], $_POST['ficha_estado'], $_POST['ficha_fecha_inicio'], $_POST['ficha_fecha_fin'], $_POST['ficha_trimestre'], $_POST['ficha_modalidad'], $_POST['ficha_jornada'], $_POST['ficha_tipo_formacion'], $_POST['ficha_centro_formacion'], $_POST['ficha_coordinacion'], $_POST['ficha_programa_formacion']);
+            $ficha = new Ficha($_POST['fich_id'], $_POST['PROGRAMA_prog_id'], $_POST['INSTRUCTOR_inst_id_lider'], $_POST['fich_jornada'], $_POST['COORDINACION_coord_id'], $_POST['fich_fecha_ini_lectiva'], $_POST['fich_fecha_fin_lectiva']);
             Ficha::save($ficha);
             header('Location: ?controller=Ficha&action=index');
         }
@@ -34,7 +47,7 @@ class FichaController {
     }
     public function update() { 
         if($_SERVER['REQUEST_METHOD'] == 'POST'){
-            $ficha = new Ficha($_POST['ficha_id'], $_POST['ficha_numero'], $_POST['ficha_nombre'], $_POST['ficha_estado'], $_POST['ficha_fecha_inicio'], $_POST['ficha_fecha_fin'], $_POST['ficha_trimestre'], $_POST['ficha_modalidad'], $_POST['ficha_jornada'], $_POST['ficha_tipo_formacion'], $_POST['ficha_centro_formacion'], $_POST['ficha_coordinacion'], $_POST['ficha_programa_formacion']);
+            $ficha = new Ficha($_POST['fich_id'], $_POST['PROGRAMA_prog_id'], $_POST['INSTRUCTOR_inst_id_lider'], $_POST['fich_jornada'], $_POST['COORDINACION_coord_id'], $_POST['fich_fecha_ini_lectiva'], $_POST['fich_fecha_fin_lectiva']);
             Ficha::update($ficha);
             header('Location: ?controller=Ficha&action=index');
         }

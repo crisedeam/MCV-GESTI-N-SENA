@@ -19,6 +19,7 @@ class AmbienteController {
     public function index() {
         static $listaAmbientes = [];
         $listaAmbientes = Ambiente::all();
+        $totalAmbientes = count($listaAmbientes);
         require_once 'views/Ambiente/show.php';
         // TAREA:
         // - Llama al método estático all() de tu modelo para traer todos los registros.
@@ -36,35 +37,32 @@ class AmbienteController {
 
     // 3. Procesar los datos y guardarlos
     public function save() {
-        // TAREA:
-        // - Verifica si llegaron por $_POST los campos: amb_id, amb_nombre y SEDE_sede_id
-        // - Instancia un nuevo objeto Ambiente con esos datos.
-        // - Invoca Ambiente::save($tuObjeto).
-        // - Redirige a header('Location: ?controller=Ambiente&action=index');
+        if($_SERVER['REQUEST_METHOD'] == 'POST'){
+            $ambiente = new Ambiente($_POST['amb_id'], $_POST['amb_nombre'], $_POST['SEDE_sede_id']);
+            Ambiente::save($ambiente);
+            header('Location: ?controller=Ambiente&action=index');
+        }
     }
 
     // 4. Mostrar detalles
     public function details() {
-        // TAREA:
-        // - Verifica el $_GET['id'].
-        // - Usa Ambiente::searchById().
-        // - Haz require_once de 'details.php'.
+        $ambiente = Ambiente::searchById($_GET['id']);
+        require_once 'views/Ambiente/details.php';
     }
 
     // 5. Mostrar formulario de edición
     public function updateshow() {
-        // TAREA:
-        // - Verifica el $_GET['id'] y búscalo con searchById().
-        // - Haz require_once de 'updateshow.php'.
+        $ambiente = Ambiente::searchById($_GET['id']);
+        require_once 'views/Ambiente/updateshow.php';
     }
 
     // 6. Procesar edición
     public function update() {
-        // TAREA:
-        // - Captura el $_POST de ID, Nombre de ambiente y la FORÁNEA.
-        // - Instancia un objeto Ambiente nuevo.
-        // - Invoca Ambiente::update($tuObjeto).
-        // - Redirige al action=index.
+        if($_SERVER['REQUEST_METHOD'] == 'POST'){
+            $ambiente = new Ambiente($_POST['amb_id'], $_POST['amb_nombre'], $_POST['SEDE_sede_id']);
+            Ambiente::update($ambiente);
+            header('Location: ?controller=Ambiente&action=index');
+        }
     }
 
     // 7. Eliminar

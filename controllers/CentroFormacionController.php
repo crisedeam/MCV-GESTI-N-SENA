@@ -18,8 +18,8 @@ class CentroFormacionController {
     public function index() {
         static $listaCentros = [];
         $listaCentros = CentroFormacion::all();
+        $totalCentros = count($listaCentros);
         require_once 'views/CentroFormacion/show.php';
-        
 
         // TAREA:
         // - Llama al método estático all() de tu modelo para traer todos los registros.
@@ -60,10 +60,8 @@ class CentroFormacionController {
 
     // 5. Mostrar formulario para actualizar
     public function updateshow() {
-        // TAREA:
-        // - Igual que details(), verifica el $_GET['id'].
-        // - Usa searchById() del modelo y guárdalo en una variable.
-        // - Haz require_once de 'updateshow.php'. Esto servirá para que la vista rellene los <input>.
+        $centro = CentroFormacion::searchById($_GET['id']);
+        require_once 'views/CentroFormacion/updateshow.php';
     }
 
     // 6. Procesar actualización en la BD

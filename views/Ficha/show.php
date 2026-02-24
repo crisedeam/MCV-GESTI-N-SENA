@@ -13,7 +13,7 @@
         <div class="header-actions">
             <div class="search-box">
                 <i class="fa-solid fa-magnifying-glass"></i>
-                <input type="text" placeholder="Buscar ficha...">
+                <input type="text" id="searchInput" placeholder="Buscar ficha..." onkeyup="filterTable()">
             </div>
             <button class="btn-notifications">
                 <i class="fa-regular fa-bell"></i>
@@ -29,7 +29,7 @@
             <i class="fa-solid fa-triangle-exclamation"></i>
             <div>
                 <?php if ($_GET['error'] == 'foreign_key'): ?>
-                    <strong>No se pudo eliminar:</strong> La ficha no puede ser eliminada porque tiene registros asociados (ej. asignaciones de ambientes o instructores).
+                    <strong>No se pudo eliminar:</strong> La Ficha no puede ser eliminada porque tiene otros registros dependiendo de ella en el sistema. asignaciones de ambientes o instructores).
                 <?php else: ?>
                     <strong>Error:</strong> Ocurrió un error al intentar eliminar el registro.
                 <?php endif; ?>
@@ -37,21 +37,64 @@
         </div>
     <?php endif; ?>
 
+    <!-- Dashboard Mini -->
+    <div class="dashboard-grid">
+        <div class="stat-card">
+            <div class="stat-icon" style="background-color: #e6fced; color: #39A900;">
+                <i class="fa-solid fa-users-viewfinder"></i>
+            </div>
+            <div class="stat-details">
+                <h3>Total Fichas</h3>
+                <p class="stat-number"><?= $totalFichas ?></p>
+            </div>
+        </div>
+        <div class="stat-card">
+            <div class="stat-icon" style="background-color: #fce7f3; color: #db2777;">
+                <i class="fa-solid fa-sun"></i>
+            </div>
+            <div class="stat-details">
+                <h3>Jornada Diurna</h3>
+                <p class="stat-number"><?= $totalDiurnas ?></p>
+            </div>
+        </div>
+        <div class="stat-card">
+            <div class="stat-icon" style="background-color: #e0e7ff; color: #4f46e5;">
+                <i class="fa-solid fa-moon"></i>
+            </div>
+            <div class="stat-details">
+                <h3>Jornada Nocturna</h3>
+                <p class="stat-number"><?= $totalNocturnas ?></p>
+            </div>
+        </div>
+        <div class="stat-card">
+            <div class="stat-icon" style="background-color: #fef3c7; color: #d97706;">
+                <i class="fa-solid fa-circle-half-stroke"></i>
+            </div>
+            <div class="stat-details">
+                <h3>Jornada Mixta</h3>
+                <p class="stat-number"><?= $totalMixtas ?></p>
+            </div>
+        </div>
+    </div>
+
     <div class="table-card">
-        <table>
+        <table id="dataTable">
             <thead>
                 <tr>
                     <th>CÓDIGO DE FICHA</th>
                     <th>PROGRAMA DE FORMACIÓN</th>
-                    <th>CANTIDAD APRENDICES</th>
-                    <th>ESTADO</th>
+                    <th>INSTRUCTOR LÍDER</th>
+                    <th>JORNADA</th>
+                    <th>COORDINACIÓN</th>
+                    <th>FECHA INICIO</th>
+                    <th>FECHA FIN</th>
                     <th style="text-align: right;">ACCIONES</th>
                 </tr>
             </thead>
             <tbody>
                 <?php if (empty($listaFichas)): ?>
                 <tr>
-                    <td colspan="5" class="empty-table-message">
+                    <td colspan="8" class="empty-table-message">
                         No hay fichas registradas todavía. <br>
                         Utilice el botón "Nueva Ficha" para agregar una.
                     </td>
@@ -61,8 +104,11 @@
                     <tr>
                         <td style="font-weight: 500; font-family: 'Outfit', sans-serif; color: #39A900;"><?= htmlspecialchars($ficha->getFich_id()) ?></td>
                         <td style="font-weight: 500;"><?= htmlspecialchars($ficha->getPROGRAMA_prog_id()) ?></td>
+                        <td><?= htmlspecialchars($ficha->getINSTRUCTOR_inst_id_lider()) ?></td>
                         <td><?= htmlspecialchars($ficha->getFich_jornada()) ?></td>
-                        <td><span class="status-active">Activa</span></td>
+                        <td><?= htmlspecialchars($ficha->getCOORDINACION_coord_id()) ?></td>
+                        <td><?= htmlspecialchars($ficha->getFich_fecha_ini_lectiva()) ?></td>
+                        <td><?= htmlspecialchars($ficha->getFich_fecha_fin_lectiva()) ?></td>
                         <td style="text-align: right;">
                             <a href="?controller=Ficha&action=details&id=<?= htmlspecialchars($ficha->getFich_id()) ?>" class="btn-icon" title="Ver Detalles"><i class="fa-regular fa-eye"></i></a>
                             <a href="?controller=Ficha&action=updateshow&id=<?= htmlspecialchars($ficha->getFich_id()) ?>" class="btn-icon" title="Editar"><i class="fa-solid fa-pen"></i></a>
@@ -75,3 +121,20 @@
         </table>
     </div>
 </div>
+
+<script>
+function filterTable() {
+    let input = document.getElementById("searchInput");
+    let filter = input.value.toUpperCase();
+    let table = document.getElementById("dataTable");
+    let tr = table.getElementsByTagName("tr");
+    for (let i = 1; i < tr.length; i++) {
+        let textValue = tr[i].textContent || tr[i].innerText;
+        if (textValue.toUpperCase().indexOf(filter) > -1) {
+            tr[i].style.display = "";
+        } else {
+            tr[i].style.display = "none";
+        }
+    }
+}
+</script>

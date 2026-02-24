@@ -1,8 +1,8 @@
 <?php
 require_once 'models/Programa.php';
 $ProgramaList = Programa::all();
-require_once 'models/Intructor.php';
-$IntructorList = Intructor::all();
+require_once 'models/Instructor.php';
+$InstructorList = Instructor::all();
 require_once 'models/Coordinacion.php';
 $CoordinacionList = Coordinacion::all();
 ?>
@@ -46,10 +46,10 @@ $CoordinacionList = Coordinacion::all();
                         </select>
                     </div>
                     <div class='form-group full-width'>
-                        <label for='INSTRUCTOR_ins_id_lider'>Instructor Líder</label>
-                        <select id='INSTRUCTOR_ins_id_lider' name='INSTRUCTOR_ins_id_lider' class='form-control'>
+                        <label for='INSTRUCTOR_inst_id_lider'>Instructor Líder</label>
+                        <select id='INSTRUCTOR_inst_id_lider' name='INSTRUCTOR_inst_id_lider' class='form-control'>
                             <option value=''>Seleccione...</option>
-                            <?php foreach($IntructorList as $item): ?>
+                            <?php foreach($InstructorList as $item): ?>
                                 <option value='<?= $item->getInst_id() ?>'><?= $item->getInst_nombre() ?></option>
                             <?php endforeach; ?>
                         </select>
@@ -67,9 +67,17 @@ $CoordinacionList = Coordinacion::all();
                         <select id='COORDINACION_coord_id' name='COORDINACION_coord_id' class='form-control'>
                             <option value=''>Seleccione...</option>
                             <?php foreach($CoordinacionList as $item): ?>
-                                <option value='<?= $item->getCoord_id() ?>'><?= $item->getCoord_nombre() ?></option>
+                                <option value='<?= $item->getCoord_id() ?>'><?= $item->getCoord_descripcion() ?></option>
                             <?php endforeach; ?>
                         </select>
+                    </div>
+                    <div class='form-group full-width'>
+                        <label for='fich_fecha_ini_lectiva'>Fecha Inicio Lectiva</label>
+                        <input type='date' id='fich_fecha_ini_lectiva' name='fich_fecha_ini_lectiva' class='form-control' required>
+                    </div>
+                    <div class='form-group full-width'>
+                        <label for='fich_fecha_fin_lectiva'>Fecha Fin Lectiva</label>
+                        <input type='date' id='fich_fecha_fin_lectiva' name='fich_fecha_fin_lectiva' class='form-control' required>
                     </div>
                 </div>
 

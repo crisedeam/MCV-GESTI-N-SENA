@@ -6,13 +6,13 @@ $CentroFormacionList = CentroFormacion::all();
     <div class='breadcrumb'>
         <span style='text-transform: uppercase;'>Administración</span>
         <i class='fa-solid fa-chevron-right' style='font-size: 10px;'></i>
-        <a href='?controller=Intructor&action=index' style='color: #39A900; text-decoration: none; font-weight: 700; text-transform: uppercase;'>Actualizar Intructor</a>
+        <a href='?controller=Instructor&action=index' style='color: #39A900; text-decoration: none; font-weight: 700; text-transform: uppercase;'>Registrar Instructor</a>
     </div>
 
     <div class='view-header' style='margin-bottom: 0;'>
         <div class='view-title-block'>
-            <h1>Actualizar Intructor</h1>
-            <p>Modifique los detalles de este registro.</p>
+            <h1>Registrar Instructor</h1>
+            <p>Ingrese los detalles requeridos.</p>
         </div>
     </div>
 
@@ -20,33 +20,33 @@ $CentroFormacionList = CentroFormacion::all();
         <div class='form-side-panel'>
             <div class='panel-header'>
                 <i class='fa-solid fa-file-signature'></i>
-                <h3>Edición</h3>
-                <p>Complete la información solicitada en el formulario para Intructor.</p>
+                <h3>Registro</h3>
+                <p>Complete la información solicitada en el formulario para Instructor.</p>
             </div>
         </div>
 
         <div class='form-main-panel'>
-            <form action='?controller=Intructor&action=update' method='POST'>
+            <form action='?controller=Instructor&action=save' method='POST'>
                 <div class='form-grid'>
                     <div class='form-group full-width'>
                         <label for='inst_id'>ID / Identificador</label>
-                        <input type='number' id='inst_id' name='inst_id' class='form-control' placeholder='Ej: 1' value='1' readonly style='background-color: #f8fafc;'>
+                        <input type='number' id='inst_id' name='inst_id' class='form-control' placeholder='Ej: 1'  >
                     </div>
                     <div class='form-group full-width'>
                         <label for='inst_nombre'>Nombre</label>
-                        <input type='text' id='inst_nombre' name='inst_nombre' class='form-control' value='Ejemplo'>
+                        <input type='text' id='inst_nombre' name='inst_nombre' class='form-control' >
                     </div>
                     <div class='form-group full-width'>
                         <label for='inst_apellido'>Apellido</label>
-                        <input type='text' id='inst_apellido' name='inst_apellido' class='form-control' value='Ejemplo'>
+                        <input type='text' id='inst_apellido' name='inst_apellido' class='form-control' >
                     </div>
                     <div class='form-group full-width'>
                         <label for='inst_correo'>Correo</label>
-                        <input type='text' id='inst_correo' name='inst_correo' class='form-control' value='Ejemplo'>
+                        <input type='text' id='inst_correo' name='inst_correo' class='form-control' >
                     </div>
                     <div class='form-group full-width'>
                         <label for='inst_telefono'>Teléfono</label>
-                        <input type='text' id='inst_telefono' name='inst_telefono' class='form-control' value='Ejemplo'>
+                        <input type='text' id='inst_telefono' name='inst_telefono' class='form-control' >
                     </div>
                     <div class='form-group full-width'>
                         <label for='CENTRO_FORMACION_cent_id'>Centro Formación</label>
@@ -57,12 +57,16 @@ $CentroFormacionList = CentroFormacion::all();
                             <?php endforeach; ?>
                         </select>
                     </div>
+                    <div class='form-group full-width'>
+                        <label for='inst_password'>Contraseña de Ingreso</label>
+                        <input type='password' id='inst_password' name='inst_password' class='form-control' placeholder='Ingrese una contraseña segura' required>
+                    </div>
                 </div>
 
                 <div class='form-actions'>
-                    <a href='?controller=Intructor&action=index' class='btn-secondary' style='text-decoration: none;'>Cancelar</a>
+                    <a href='?controller=Instructor&action=index' class='btn-secondary' style='text-decoration: none;'>Cancelar</a>
                     <button type='submit' class='btn-success'>
-                        <i class='fa-regular fa-floppy-disk'></i> Actualizar Intructor
+                        <i class='fa-regular fa-floppy-disk'></i> Guardar Instructor
                     </button>
                 </div>
             </form>

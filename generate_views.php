@@ -42,7 +42,7 @@ $models = [
             ['name' => 'titpro_nombre', 'label' => 'Nombre del Título', 'type' => 'text']
         ]
     ],
-    'Intructor' => [ // Nota: falta la 's' de instructor en el modelo, lo mantengo así
+    'Instructor' => [ // Nota: falta la 's' de instructor en el modelo, lo mantengo así
         'id' => 'inst_id', 'fields' => [
             ['name' => 'inst_nombre', 'label' => 'Nombre', 'type' => 'text'],
             ['name' => 'inst_apellido', 'label' => 'Apellido', 'type' => 'text'],
@@ -54,7 +54,7 @@ $models = [
     'Ficha' => [
         'id' => 'fich_id', 'fields' => [
             ['name' => 'PROGRAMA_prog_id', 'label' => 'Programa', 'type' => 'fk', 'fk_model' => 'Programa', 'fk_id' => 'prog_codigo', 'fk_name' => 'prog_denominacion'],
-            ['name' => 'INSTRUCTOR_ins_id_lider', 'label' => 'Instructor Líder', 'type' => 'fk', 'fk_model' => 'Intructor', 'fk_id' => 'inst_id', 'fk_name' => 'inst_nombre'],
+            ['name' => 'INSTRUCTOR_ins_id_lider', 'label' => 'Instructor Líder', 'type' => 'fk', 'fk_model' => 'Instructor', 'fk_id' => 'inst_id', 'fk_name' => 'inst_nombre'],
             ['name' => 'fich_jornada', 'label' => 'Jornada', 'type' => 'select', 'options' => ['Diurna', 'Nocturna', 'Mixta']],
             ['name' => 'COORDINACION_coord_id', 'label' => 'Coordinación', 'type' => 'fk', 'fk_model' => 'Coordinacion', 'fk_id' => 'coord_id', 'fk_name' => 'coord_nombre']
         ]

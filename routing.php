@@ -13,16 +13,38 @@ $controllers = [
     'Programa' => ['index', 'register', 'save', 'show', 'updateshow', 'update', 'delete', 'details'],
     'TituloPrograma' => ['index', 'register', 'save', 'show', 'updateshow', 'update', 'delete', 'details'],
     'Competencia' => ['index', 'register', 'save', 'show', 'updateshow', 'update', 'delete', 'details'],
-    'Intructor' => ['index', 'register', 'save', 'show', 'updateshow', 'update', 'delete', 'details'],
-    'Ficha' => ['index', 'register', 'save', 'show', 'updateshow', 'update', 'delete', 'details']
+    'Instructor' => ['index', 'register', 'save', 'show', 'updateshow', 'update', 'delete', 'details'],
+    'Ficha' => ['index', 'register', 'save', 'show', 'updateshow', 'update', 'delete', 'details'],
+    // Nuevos
+    'Auth' => ['login', 'authenticate', 'logout'],
+    'Home' => ['index'], // En caso de que haya un Home genérico
+    'Asignacion' => ['index', 'register', 'save', 'show', 'updateshow', 'update', 'delete', 'details'],
+    'DetalleAsignacion' => ['index', 'register', 'save', 'show', 'updateshow', 'update', 'delete', 'details'],
+    'InstruCompetencia' => ['index', 'register', 'save', 'show', 'updateshow', 'update', 'delete', 'details']
 ];
 
 // =======================================================
 // OBTENER LA RUTA SOLICITADA POR LA URL
 // =======================================================
-$controller = $_GET['controller'] ?? 'Sede';
-$action = $_GET['action'] ?? 'index'; 
-// (Por ahora empezamos por Sede porque no hay sistema de login/Auth implementado todavía)
+$controller = $_GET['controller'] ?? 'Auth'; // Por defecto mandamos al Login si no hay sesión
+$action = $_GET['action'] ?? 'login';
+
+// Iniciar sesión si no está iniciada
+if (session_status() === PHP_SESSION_NONE) {
+    session_start();
+}
+
+// Redirigir al login si no hay sesión y no estamos en Auth
+if (!isset($_SESSION['usuario_id']) && $controller !== 'Auth') {
+    $controller = 'Auth';
+    $action = 'login';
+}
+
+// Redirigir al home (Sede por ahora) si ya hay sesión y estamos intentando ir a Auth/login
+if (isset($_SESSION['usuario_id']) && $controller === 'Auth' && ($action === 'login' || $action === 'authenticate')) {
+    $controller = 'Sede'; // O Home si tuviéramos
+    $action = 'index';
+}
 
 // =======================================================
 // VERIFICAR Y ENRUTAR 
@@ -83,13 +105,28 @@ function call($controller, $action) {
                 require_once('models/Competencia.php');
                 $controllerObj = new CompetenciaController();
                 break;
-            case 'Intructor':
-                require_once('models/Intructor.php');
-                $controllerObj = new IntructorController();
+            case 'Instructor':
+                require_once('models/Instructor.php');
+                $controllerObj = new InstructorController();
                 break;
             case 'Ficha':
                 require_once('models/Ficha.php');
                 $controllerObj = new FichaController();
+                break;
+            case 'Auth':
+                $controllerObj = new AuthController();
+                break;
+            case 'Asignacion':
+                require_once('models/Asignacion.php');
+                $controllerObj = new AsignacionController();
+                break;
+            case 'DetalleAsignacion':
+                require_once('models/DetalleAsignacion.php');
+                $controllerObj = new DetalleAsignacionController();
+                break;
+            case 'InstruCompetencia':
+                require_once('models/InstruCompetencia.php');
+                $controllerObj = new InstruCompetenciaController();
                 break;
             default:
                 die("Controlador no definido en el switch de routing.php.");

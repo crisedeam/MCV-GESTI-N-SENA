@@ -12,6 +12,7 @@ class ProgramaController {
     public function index() {
         static $listaProgramas = [];
         $listaProgramas = Programa::all();
+        $totalProgramas = count($listaProgramas);
         require_once 'views/Programa/show.php';
         // TAREA: Cargar todos los registros usando Programa::all() e ir a 'show.php'
     }

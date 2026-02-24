@@ -13,7 +13,7 @@
         <div class="header-actions">
             <div class="search-box">
                 <i class="fa-solid fa-magnifying-glass"></i>
-                <input type="text" placeholder="Buscar sede, instructor...">
+                <input type="text" id="searchInput" placeholder="Buscar sede..." onkeyup="filterTable()">
             </div>
             <button class="btn-notifications">
                 <i class="fa-regular fa-bell"></i>
@@ -29,7 +29,7 @@
             <i class="fa-solid fa-triangle-exclamation"></i>
             <div>
                 <?php if ($_GET['error'] == 'foreign_key'): ?>
-                    <strong>No se pudo eliminar:</strong> El registro no puede ser eliminado porque tiene otros registros asociados o dependientes.
+                    <strong>No se pudo eliminar:</strong> Esta Sede no puede ser eliminada porque tiene <b>Ambientes o Centros de Formación</b> dependientes. Por favor, elimine primero los registros vinculados a esta sede.
                 <?php else: ?>
                     <strong>Error:</strong> Ocurrió un error al intentar eliminar el registro.
                 <?php endif; ?>
@@ -37,20 +37,41 @@
         </div>
     <?php endif; ?>
 
+    <!-- Dashboard Mini -->
+    <div class="dashboard-grid">
+        <div class="stat-card">
+            <div class="stat-icon" style="background-color: #e6fced; color: #39A900;">
+                <i class="fa-solid fa-map-location-dot"></i>
+            </div>
+            <div class="stat-details">
+                <h3>Total Sedes</h3>
+                <p class="stat-number"><?php echo $totalSedes ?? 0; ?></p>
+            </div>
+        </div>
+        <div class="stat-card">
+            <div class="stat-icon" style="background-color: #fef3c7; color: #d97706;">
+                <i class="fa-solid fa-building-flag"></i>
+            </div>
+            <div class="stat-details">
+                <h3>Cobertura</h3>
+                <p class="stat-number">Nacional</p>
+            </div>
+        </div>
+    </div>
+
     <div class="table-card">
-        <table>
+        <table id="dataTable">
             <thead>
                 <tr>
+                    <th>ID SEDE</th>
                     <th>NOMBRE DE SEDE</th>
-                    <th>UBICACIÓN</th>
-                    <th>DIRECTOR DE SEDE</th>
-                    <th>ESTADO</th>
                     <th style="text-align: right;">ACCIONES</th>
                 </tr>
             </thead>
+            <tbody>
                 <?php if (empty($sedes)): ?>
                 <tr>
-                    <td colspan="5" class="empty-table-message">
+                    <td colspan="3" class="empty-table-message">
                         No hay sedes registradas todavía. <br>
                         Utilice el botón "Nueva Sede" para agregar una.
                     </td>
@@ -58,10 +79,8 @@
                 <?php else: ?>
                     <?php foreach ($sedes as $sedeItem): ?>
                     <tr>
+                        <td><?= htmlspecialchars($sedeItem->getSede_id()) ?></td>
                         <td style="font-weight: 500;"><?= htmlspecialchars($sedeItem->getSede_nombre()) ?></td>
-                        <td>---</td>
-                        <td>---</td>
-                        <td><span class="status-active">Activo</span></td>
                         <td style="text-align: right;">
                             <a href="?controller=Sede&action=details&id=<?= htmlspecialchars($sedeItem->getSede_id()) ?>" class="btn-icon" title="Ver Detalles"><i class="fa-regular fa-eye"></i></a>
                             <a href="?controller=Sede&action=updateshow&id=<?= htmlspecialchars($sedeItem->getSede_id()) ?>" class="btn-icon" title="Editar"><i class="fa-solid fa-pen"></i></a>
@@ -73,28 +92,21 @@
             </tbody>
         </table>
     </div>
-
-    <div class="bottom-grid">
-        <div class="map-card">
-            <div class="map-overlay">
-                <h3>Mapa de Sedes</h3>
-                <p>Ubicaciones activas en el territorio nacional.</p>
-            </div>
-        </div>
-        <div class="stats-card">
-            <div class="stats-icon">
-                <i class="fa-solid fa-chart-simple"></i>
-            </div>
-            <div class="stats-title">
-                <h3>Resumen de Ocupación</h3>
-                <p>Capacidad total instalada</p>
-            </div>
-            <div class="stats-value">
-                0%
-            </div>
-            <div class="progress-bar-container">
-                <div class="progress-bar-fill" style="width: 0%;"></div>
-            </div>
-        </div>
-    </div>
 </div>
+
+<script>
+function filterTable() {
+    let input = document.getElementById("searchInput");
+    let filter = input.value.toUpperCase();
+    let table = document.getElementById("dataTable");
+    let tr = table.getElementsByTagName("tr");
+    for (let i = 1; i < tr.length; i++) {
+        let textValue = tr[i].textContent || tr[i].innerText;
+        if (textValue.toUpperCase().indexOf(filter) > -1) {
+            tr[i].style.display = "";
+        } else {
+            tr[i].style.display = "none";
+        }
+    }
+}
+</script>

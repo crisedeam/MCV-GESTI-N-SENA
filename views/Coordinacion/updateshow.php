@@ -33,8 +33,20 @@ $CentroFormacionList = CentroFormacion::all();
                         <input type='number' id='coord_id' name='coord_id' class='form-control' placeholder='Ej: 1' value='1' readonly style='background-color: #f8fafc;'>
                     </div>
                     <div class='form-group full-width'>
-                        <label for='coord_nombre'>Nombre Coordinación</label>
-                        <input type='text' id='coord_nombre' name='coord_nombre' class='form-control' value='Ejemplo'>
+                        <label for='coord_descripcion'>Descripción de Coordinación</label>
+                        <input type='text' id='coord_descripcion' name='coord_descripcion' class='form-control' value='<?= htmlspecialchars($coordinacion->getCoord_descripcion()) ?>'>
+                    </div>
+                    <div class='form-group full-width'>
+                        <label for='coord_nombre_coordinador'>Nombre del Coordinador</label>
+                        <input type='text' id='coord_nombre_coordinador' name='coord_nombre_coordinador' class='form-control' value='<?= htmlspecialchars($coordinacion->getCoord_nombre_coordinador()) ?>'>
+                    </div>
+                    <div class='form-group full-width'>
+                        <label for='coord_correo'>Correo de Coordinador</label>
+                        <input type='email' id='coord_correo' name='coord_correo' class='form-control' value='<?= htmlspecialchars($coordinacion->getCoord_correo()) ?>'>
+                    </div>
+                    <div class='form-group full-width'>
+                        <label for='coord_password'>Nueva Contraseña (Opcional)</label>
+                        <input type='password' id='coord_password' name='coord_password' class='form-control' placeholder='Deje en blanco para mantener la actual'>
                     </div>
                     <div class='form-group full-width'>
                         <label for='CENTRO_FORMACION_cent_id'>Centro Formación</label>

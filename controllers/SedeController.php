@@ -17,6 +17,7 @@ class SedeController {
         // 1. Le pedimos al Modelo "Sede" que nos traiga TODAS las sedes de la base de datos
         // usando la función estática all() que creaste en Sede.php
         $sedes = Sede::all();
+        $totalSedes = count($sedes);
         
         // 2. Cargamos la vista "show.php" para mostrar la tabla.
         // Al incluir la vista aquí, la variable $sedes estará disponible dentro de show.php

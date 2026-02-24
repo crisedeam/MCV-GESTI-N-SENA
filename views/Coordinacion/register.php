@@ -33,8 +33,20 @@ $CentroFormacionList = CentroFormacion::all();
                         <input type='number' id='coord_id' name='coord_id' class='form-control' placeholder='Ej: 1'  >
                     </div>
                     <div class='form-group full-width'>
-                        <label for='coord_nombre'>Nombre Coordinación</label>
-                        <input type='text' id='coord_nombre' name='coord_nombre' class='form-control' >
+                        <label for='coord_descripcion'>Descripción de Coordinación</label>
+                        <input type='text' id='coord_descripcion' name='coord_descripcion' class='form-control' placeholder='Ej: Área de Sistemas'>
+                    </div>
+                    <div class='form-group full-width'>
+                        <label for='coord_nombre_coordinador'>Nombre del Coordinador</label>
+                        <input type='text' id='coord_nombre_coordinador' name='coord_nombre_coordinador' class='form-control' placeholder='Ej: Juan Pérez'>
+                    </div>
+                    <div class='form-group full-width'>
+                        <label for='coord_correo'>Correo de Coordinador</label>
+                        <input type='email' id='coord_correo' name='coord_correo' class='form-control' placeholder='Ej: jperez@sena.edu.co'>
+                    </div>
+                    <div class='form-group full-width'>
+                        <label for='coord_password'>Contraseña</label>
+                        <input type='password' id='coord_password' name='coord_password' class='form-control' placeholder='Ingrese una contraseña segura'>
                     </div>
                     <div class='form-group full-width'>
                         <label for='CENTRO_FORMACION_cent_id'>Centro Formación</label>

@@ -9,8 +9,9 @@ require_once 'models/Competencia.php';
 
 class CompetenciaController {
     public function index() { 
-        static $listaCompetencia =[];
-        $listaCompetencia = Competencia::all();
+        static $listaCompetencias = [];
+        $listaCompetencias = Competencia::all();
+        $totalCompetencias = count($listaCompetencias);
         require_once 'views/Competencia/show.php';
     }
     public function register() { 
