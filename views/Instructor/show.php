@@ -11,6 +11,11 @@
             <p>Administración del personal docente e instructores.</p>
         </div>
         <div class="header-actions">
+            <!-- DEBUG INFO TEMPORAL -->
+            <div style="background:#fff; border:1px solid red; padding:5px; font-size:12px;">
+                CENTRO ID ACTIVO: <?php echo isset($_SESSION['centro_id']) ? $_SESSION['centro_id'] : 'NO DEFINIDO'; ?>
+            </div>
+            
             <div class="search-box">
                 <i class="fa-solid fa-magnifying-glass"></i>
                 <input type="text" id="searchInput" placeholder="Buscar instructor..." onkeyup="filterTable()">
@@ -90,9 +95,10 @@
                         <td><?= htmlspecialchars($instructor->getInst_telefono()) ?></td>
                         <td><?= htmlspecialchars($instructor->getCENTRO_FORMACION_cent_id()) ?></td>
                         <td style="text-align: right;">
+                            <a href="?controller=Instructor&action=fichas&id=<?= htmlspecialchars($instructor->getInst_id()) ?>" class="btn-icon" title="Ver Fichas Asignadas" style="color: var(--brand-secondary);"><i class="fa-solid fa-users-rectangle"></i></a>
                             <a href="?controller=Instructor&action=details&id=<?= htmlspecialchars($instructor->getInst_id()) ?>" class="btn-icon" title="Ver Detalles"><i class="fa-regular fa-eye"></i></a>
                             <a href="?controller=Instructor&action=updateshow&id=<?= htmlspecialchars($instructor->getInst_id()) ?>" class="btn-icon" title="Editar"><i class="fa-solid fa-pen"></i></a>
-                            <a href="?controller=Instructor&action=delete&id=<?= htmlspecialchars($instructor->getInst_id()) ?>" class="btn-icon delete-icon" title="Eliminar" onclick="return confirm('¿Está seguro?');"><i class="fa-solid fa-trash-can"></i></a>
+                            <a href="?controller=Instructor&action=delete&id=<?= htmlspecialchars($instructor->getInst_id()) ?>" class="btn-icon delete-icon" title="Eliminar" onclick="return confirm('¿Está seguro de eliminar?');"><i class="fa-solid fa-trash-can"></i></a>
                         </td>
                     </tr>
                     <?php endforeach; ?>
@@ -102,19 +108,4 @@
     </div>
 </div>
 
-<script>
-function filterTable() {
-    let input = document.getElementById("searchInput");
-    let filter = input.value.toUpperCase();
-    let table = document.getElementById("dataTable");
-    let tr = table.getElementsByTagName("tr");
-    for (let i = 1; i < tr.length; i++) {
-        let textValue = tr[i].textContent || tr[i].innerText;
-        if (textValue.toUpperCase().indexOf(filter) > -1) {
-            tr[i].style.display = "";
-        } else {
-            tr[i].style.display = "none";
-        }
-    }
-}
-</script>
+<script src="assets/js/Instructor/show.js"></script>

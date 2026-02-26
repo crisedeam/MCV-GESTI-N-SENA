@@ -29,6 +29,22 @@ if (isset($_GET['date'])) {
             <p>Ingrese los detalles requeridos para la programación.</p>
         </div>
     </div>
+    
+    <?php if(isset($_GET['error'])): ?>
+        <?php if($_GET['error'] == 'duplicate'): ?>
+        <div class='alert alert-danger' style='background-color: #fce4e4; color: #cc0000; border: 1px solid #cc0000; padding: 15px; margin: 20px 0; border-radius: 5px; font-weight: bold;'>
+            <i class="fa-solid fa-circle-exclamation"></i> Error: No se puede guardar. Ya existe una programación con estos mismos componentes (Instructor, Ficha, Ambiente y Competencia).
+        </div>
+        <?php elseif($_GET['error'] == 'date_order'): ?>
+        <div class='alert alert-danger' style='background-color: #fce4e4; color: #cc0000; border: 1px solid #cc0000; padding: 15px; margin: 20px 0; border-radius: 5px; font-weight: bold;'>
+            <i class="fa-solid fa-circle-exclamation"></i> Error: La fecha de fin no puede ser anterior a la fecha de inicio.
+        </div>
+        <?php elseif($_GET['error'] == 'max_week'): ?>
+        <div class='alert alert-danger' style='background-color: #fce4e4; color: #cc0000; border: 1px solid #cc0000; padding: 15px; margin: 20px 0; border-radius: 5px; font-weight: bold;'>
+            <i class="fa-solid fa-circle-exclamation"></i> Error: El rango de fechas (Inicio a Fin) no debe exceder 1 semana (7 días) para no saturar la base de datos.
+        </div>
+        <?php endif; ?>
+    <?php endif; ?>
 
     <div class='form-container'>
         <div class='form-side-panel'>
@@ -45,13 +61,8 @@ if (isset($_GET['date'])) {
                     
                     <div class='form-group full-width'>
                         <label for='INSTRUCTOR_inst_id'>Instructor</label>
-                        <select id='INSTRUCTOR_inst_id' name='INSTRUCTOR_inst_id' class='form-control' required>
-                            <option value=''>Seleccione...</option>
-                            <?php foreach($listaInstructores as $instructor): ?>
-                                <option value='<?php echo $instructor->getInst_id(); ?>'>
-                                    <?php echo htmlspecialchars($instructor->getInst_nombre() . " " . $instructor->getInst_apellido()); ?>
-                                </option>
-                            <?php endforeach; ?>
+                        <select id='INSTRUCTOR_inst_id' name='INSTRUCTOR_inst_id' class='form-control' required disabled>
+                            <option value=''>Primero seleccione una Competencia...</option>
                         </select>
                     </div>
                     
@@ -137,3 +148,5 @@ if (isset($_GET['date'])) {
         </div>
     </div>
 </div>
+
+<script src="assets/js/Asignacion/register.js"></script>

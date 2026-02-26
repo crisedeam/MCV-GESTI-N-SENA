@@ -82,5 +82,22 @@ public static function delete($comp_id){
     $delete->execute();	
 }
 
+public static function getByPrograma($prog_id){
+    $db=DB::getConnect();
+    $listaCompetencias=[];
+    $select=$db->prepare('
+        SELECT c.*
+        FROM competencia c
+        JOIN competxprograma cp ON c.comp_id = cp.COMPETENCIA_comp_id
+        WHERE cp.PROGRAMA_prog_id = :prog_id
+    ');
+    $select->bindValue('prog_id', $prog_id);
+    $select->execute();
+    foreach($select->fetchAll() as $row){
+        $listaCompetencias[]=new Competencia($row['comp_id'],$row['comp_nombre_corto'],$row['comp_horas'],$row['comp_nombre_unidad_competencia']);
+    }
+    return $listaCompetencias;
+}
+
 
 }

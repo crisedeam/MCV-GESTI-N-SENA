@@ -1,1 +1,0 @@
-<?php require_once "connection.php"; $db = DB::getConnect(); $stmt = $db->query("DESCRIBE ficha"); print_r($stmt->fetchAll(PDO::FETCH_COLUMN)); echo "\n---\n"; $stmt2 = $db->query("DESCRIBE instructor"); print_r($stmt2->fetchAll(PDO::FETCH_COLUMN)); ?>

@@ -15,7 +15,23 @@
                 <i class="fa-solid fa-magnifying-glass"></i>
                 <input type="text" id="searchInput" placeholder="Buscar asignación..." onkeyup="filterTable()">
             </div>
+            <div class="search-box">
+                <i class="fa-solid fa-filter"></i>
+                <select id="programFilter" onchange="filterTable()">
+                    <option value="">Todos los Programas</option>
+                    <?php if (isset($listaProgramas)): ?>
+                        <?php foreach ($listaProgramas as $programa): ?>
+                            <option value="<?= htmlspecialchars($programa->getProg_codigo()) ?>">
+                                <?= htmlspecialchars($programa->getProg_denominacion()) ?>
+                            </option>
+                        <?php endforeach; ?>
+                    <?php endif; ?>
+                </select>
+            </div>
             <?php if (isset($_SESSION['rol']) && $_SESSION['rol'] === 'coordinador'): ?>
+            <a href="?controller=Asignacion&action=calendar" class="btn-secondary" style="text-decoration: none; margin-right: 10px; background-color: var(--bg-card); color: var(--text-primary); border: 1px solid var(--border-color);">
+                <i class="fa-solid fa-calendar-days"></i> Ver Calendario
+            </a>
             <a href="?controller=Asignacion&action=register" class="btn-primary" style="text-decoration: none;">
                 <i class="fa-solid fa-plus"></i> Nueva Asignación
             </a>
@@ -84,12 +100,16 @@
                 </tr>
                 <?php else: ?>
                     <?php foreach ($listaAsignaciones as $asignacion): ?>
-                    <tr>
+                    <tr data-programa="<?= htmlspecialchars($asignacion->getPrograma_id()) ?>">
                         <td style="font-weight: 500; font-family: 'Outfit', sans-serif; color: #39A900;"><?= htmlspecialchars($asignacion->getASIG_ID()) ?></td>
-                        <td style="font-weight: 500;"><?= htmlspecialchars($asignacion->getINSTRUCTOR_inst_id()) ?></td>
+                        <td style="font-weight: 500;">
+                            <?= htmlspecialchars($asignacion->getInstructor_nombre() ? $asignacion->getInstructor_nombre() : $asignacion->getINSTRUCTOR_inst_id()) ?>
+                        </td>
                         <td><?= htmlspecialchars($asignacion->getFICHA_fich_id()) ?></td>
                         <td><?= htmlspecialchars($asignacion->getAMBIENTE_amb_id()) ?></td>
-                        <td><?= htmlspecialchars($asignacion->getCOMPETENCIA_comp_id()) ?></td>
+                        <td>
+                            <?= htmlspecialchars($asignacion->getCompetencia_nombre() ? $asignacion->getCompetencia_nombre() : $asignacion->getCOMPETENCIA_comp_id()) ?>
+                        </td>
                         <td><?= htmlspecialchars(date('d/m/Y H:i', strtotime($asignacion->getAsig_fecha_ini()))) ?></td>
                         <td><?= htmlspecialchars(date('d/m/Y H:i', strtotime($asignacion->getAsig_fecha_fin()))) ?></td>
                         <td style="text-align: right;">
@@ -107,19 +127,4 @@
     </div>
 </div>
 
-<script>
-function filterTable() {
-    let input = document.getElementById("searchInput");
-    let filter = input.value.toUpperCase();
-    let table = document.getElementById("dataTable");
-    let tr = table.getElementsByTagName("tr");
-    for (let i = 1; i < tr.length; i++) {
-        let textValue = tr[i].textContent || tr[i].innerText;
-        if (textValue.toUpperCase().indexOf(filter) > -1) {
-            tr[i].style.display = "";
-        } else {
-            tr[i].style.display = "none";
-        }
-    }
-}
-</script>
+<script src="assets/js/Asignacion/show.js"></script>

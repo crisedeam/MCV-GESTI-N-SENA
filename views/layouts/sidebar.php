@@ -2,8 +2,10 @@
 // Sidebar layout
 $currentController = isset($_GET['controller']) ? $_GET['controller'] : 'Home';
 
-function isActive($menu, $current) {
-    return $menu === $current ? 'class="active"' : '';
+if (!function_exists('isActive')) {
+    function isActive($menu, $current) {
+        return $menu === $current ? 'class="active"' : '';
+    }
 }
 ?>
 
@@ -19,34 +21,29 @@ function isActive($menu, $current) {
     </div>
 
     <div class="sidebar-menu">
-        <?php if (isset($_SESSION['rol']) && $_SESSION['rol'] === 'coordinador'): ?>
+        <?php if (isset($_SESSION['rol']) && $_SESSION['rol'] === 'centro_formacion'): ?>
             <div class="menu-group">
-                <h3>Administración</h3>
+                <h3>Estructura Macro</h3>
                 <ul>
                     <li <?= isActive('Home', $currentController) ?>><a href="?controller=Home&action=index"><i class="fa-solid fa-house"></i> Inicio</a></li>
                     <li <?= isActive('Sede', $currentController) ?>><a href="?controller=Sede&action=index"><i class="fa-solid fa-building"></i> Sedes</a></li>
-                    <li <?= isActive('CentroFormacion', $currentController) ?>><a href="?controller=CentroFormacion&action=index"><i class="fa-solid fa-city"></i> Centros de Formación</a></li>
-                    <li <?= isActive('Coordinacion', $currentController) ?>><a href="?controller=Coordinacion&action=index"><i class="fa-solid fa-sitemap"></i> Coordinaciones</a></li>
                     <li <?= isActive('Ambiente', $currentController) ?>><a href="?controller=Ambiente&action=index"><i class="fa-solid fa-door-open"></i> Ambientes</a></li>
-                </ul>
-            </div>
-
-            <div class="menu-group">
-                <h3>Académico</h3>
-                <ul>
                     <li <?= isActive('Programa', $currentController) ?>><a href="?controller=Programa&action=index"><i class="fa-solid fa-book"></i> Programas</a></li>
-                    <li <?= isActive('TituloPrograma', $currentController) ?>><a href="?controller=TituloPrograma&action=index"><i class="fa-solid fa-graduation-cap"></i> Títulos</a></li>
+                    <li <?= isActive('TituloPrograma', $currentController) ?>><a href="?controller=TituloPrograma&action=index"><i class="fa-solid fa-graduation-cap"></i> Títulos de Programa</a></li>
+                    <li <?= isActive('Instructor', $currentController) ?>><a href="?controller=Instructor&action=index"><i class="fa-solid fa-chalkboard-user"></i> Instructores</a></li>
                     <li <?= isActive('Competencia', $currentController) ?>><a href="?controller=Competencia&action=index"><i class="fa-solid fa-list-check"></i> Competencias</a></li>
+                    <li <?= isActive('Coordinacion', $currentController) ?>><a href="?controller=Coordinacion&action=index"><i class="fa-solid fa-sitemap"></i> Coordinaciones</a></li>
                 </ul>
             </div>
-
+        <?php elseif (isset($_SESSION['rol']) && $_SESSION['rol'] === 'coordinador'): ?>
             <div class="menu-group">
-                <h3>Ejecución</h3>
+                <h3>Gestión Operativa</h3>
                 <ul>
-                    <li <?= isActive('Instructor', $currentController) ?>><a href="?controller=Instructor&action=index"><i class="fa-solid fa-chalkboard-user"></i> Instructores</a></li>
+                    <li <?= isActive('Home', $currentController) ?>><a href="?controller=Home&action=index"><i class="fa-solid fa-house"></i> Inicio</a></li>
+                    <li <?= isActive('CompetxPrograma', $currentController) ?>><a href="?controller=CompetxPrograma&action=index"><i class="fa-solid fa-link"></i> Competencia x Programa</a></li>
                     <li <?= isActive('Ficha', $currentController) ?>><a href="?controller=Ficha&action=index"><i class="fa-solid fa-users-viewfinder"></i> Fichas</a></li>
-                    <li <?= isActive('Asignacion', $currentController) ?>><a href="?controller=Asignacion&action=index"><i class="fa-solid fa-calendar-days"></i> Asignaciones</a></li>
-                    <li <?= isActive('InstruCompetencia', $currentController) ?>><a href="?controller=InstruCompetencia&action=index"><i class="fa-solid fa-list-ul"></i> Competencias Instructor</a></li>
+                    <li <?= isActive('InstruCompetencia', $currentController) ?>><a href="?controller=InstruCompetencia&action=index"><i class="fa-solid fa-certificate"></i> Avales de Instructores</a></li>
+                    <li <?= isActive('Asignacion', $currentController) ?>><a href="?controller=Asignacion&action=index"><i class="fa-solid fa-calendar-days"></i> Programar Horarios</a></li>
                 </ul>
             </div>
         <?php elseif (isset($_SESSION['rol']) && $_SESSION['rol'] === 'instructor'): ?>
@@ -55,6 +52,7 @@ function isActive($menu, $current) {
                 <ul>
                     <li <?= isActive('Home', $currentController) ?>><a href="?controller=Home&action=index"><i class="fa-solid fa-house-user"></i> Inicio</a></li>
                     <li <?= isActive('Asignacion', $currentController) ?>><a href="?controller=Asignacion&action=index"><i class="fa-solid fa-calendar-check"></i> Mi Horario</a></li>
+                    <li <?= isActive('Instructor', $currentController) ?>><a href="?controller=Instructor&action=fichas&id=<?= $_SESSION['usuario_id'] ?>"><i class="fa-solid fa-users-rectangle"></i> Mis Fichas</a></li>
                 </ul>
             </div>
         <?php endif; ?>

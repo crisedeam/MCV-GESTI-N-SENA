@@ -12,15 +12,16 @@ $controllers = [
     'Ambiente' => ['index', 'register', 'save', 'show', 'updateshow', 'update', 'delete', 'details'],
     'Programa' => ['index', 'register', 'save', 'show', 'updateshow', 'update', 'delete', 'details'],
     'TituloPrograma' => ['index', 'register', 'save', 'show', 'updateshow', 'update', 'delete', 'details'],
-    'Competencia' => ['index', 'register', 'save', 'show', 'updateshow', 'update', 'delete', 'details'],
-    'Instructor' => ['index', 'register', 'save', 'show', 'updateshow', 'update', 'delete', 'details'],
+    'Competencia' => ['index', 'register', 'save', 'show', 'updateshow', 'update', 'delete', 'details', 'getByPrograma'],
+    'Instructor' => ['index', 'register', 'save', 'show', 'updateshow', 'update', 'delete', 'details', 'fichas'],
     'Ficha' => ['index', 'register', 'save', 'show', 'updateshow', 'update', 'delete', 'details'],
     // Nuevos
     'Auth' => ['login', 'authenticate', 'logout'],
     'Home' => ['index'], // En caso de que haya un Home genérico
-    'Asignacion' => ['index', 'register', 'save', 'show', 'updateshow', 'update', 'delete', 'details'],
+    'Asignacion' => ['index', 'register', 'save', 'show', 'updateshow', 'update', 'delete', 'details', 'getInstructoresByCompetencia', 'calendar', 'getEventosByInstructor'],
     'DetalleAsignacion' => ['index', 'register', 'save', 'show', 'updateshow', 'update', 'delete', 'details'],
-    'InstruCompetencia' => ['index', 'register', 'save', 'show', 'updateshow', 'update', 'delete', 'details']
+    'InstruCompetencia' => ['index', 'register', 'save', 'show', 'updateshow', 'update', 'delete', 'details'],
+    'CompetxPrograma' => ['index', 'register', 'save', 'show', 'updateshow', 'update', 'delete']
 ];
 
 // =======================================================
@@ -47,18 +48,32 @@ if (isset($_SESSION['usuario_id']) && $controller === 'Auth' && ($action === 'lo
 }
 
 // =======================================================
-// VERIFICAR Y ENRUTAR 
+// PROTECCIÓN DE ACCESO POR ROLES (RBAC)
 // =======================================================
+$rol = $_SESSION['rol'] ?? '';
+
+// Dependiendo del rol, definimos qué controladores tienen permitidos
+$permisos = [
+    'centro_formacion' => ['Sede', 'CentroFormacion', 'Coordinacion', 'Ambiente', 'Programa', 'TituloPrograma', 'Competencia', 'Instructor', 'Auth', 'Home'],
+    'coordinador' => ['Auth', 'Home', 'CompetxPrograma', 'Ficha', 'InstruCompetencia', 'Asignacion', 'DetalleAsignacion', 'Competencia', 'Instructor'], // Se le da acceso a Competencia e Instructor temporalmente para las peticiones AJAX si es necesario
+    'instructor' => ['Auth', 'Home', 'Asignacion', 'Instructor']
+];
+
 if (array_key_exists($controller, $controllers)) {
-    // Si el controlador existe en nuestra lista blanca, comprobamos la acción
-    if (in_array($action, $controllers[$controller])) {
-        call($controller, $action);
+    $permisos_rol = $permisos[$rol] ?? ['Auth'];
+    // Verificar si el rol actual tiene permiso de acceder a este controlador
+    if (in_array($controller, $permisos_rol)) {
+        if (in_array($action, $controllers[$controller])) {
+            call($controller, $action);
+        } else {
+            echo "<h2 style='text-align: center; color: red;'>Error: Acción no válida</h2>";
+        }
     } else {
-        // Acción no válida para ese controlador
-        echo "<h2 style='text-align: center; color: red;'>Error: Acción no válida</h2>";
+        // Redirigir al inicio o mostrar alerta si intenta entrar a un módulo prohibido
+        header('Location: ?controller=Home&action=index&error=unauthorized');
+        exit;
     }
 } else {
-    // Controlador no válido
     echo "<h2 style='text-align: center; color: red;'>Error: Controlador no válido</h2>";
 }
 
@@ -130,6 +145,10 @@ function call($controller, $action) {
             case 'InstruCompetencia':
                 require_once('models/InstruCompetencia.php');
                 $controllerObj = new InstruCompetenciaController();
+                break;
+            case 'CompetxPrograma':
+                require_once('models/CompetxPrograma.php');
+                $controllerObj = new CompetxProgramaController();
                 break;
             default:
                 die("Controlador no definido en el switch de routing.php.");

@@ -1,9 +1,36 @@
-<div class="view-container">
-    <div class="breadcrumb">
-        <span>Mi Espacio</span>
-        <i class="fa-solid fa-chevron-right" style="font-size: 10px;"></i>
-        <span class="active">Inicio</span>
-    </div>
+<?php
+if (session_status() === PHP_SESSION_NONE) {
+    session_start();
+}
+?>
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Inicio - SENA</title>
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <!-- FontAwesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <?php lcg_value(); $vs = '?v=' . time(); ?>
+    <link rel="stylesheet" href="assets/css/main.css<?= $vs ?>">
+    <link rel="stylesheet" href="assets/css/sidebar.css<?= $vs ?>">
+</head>
+<body class="light-theme">
+
+    <?php 
+    $currentController = 'Home';
+    include 'views/layouts/sidebar.php'; 
+    ?>
+
+    <main class="main-content">
+        <div class="view-container">
+            <div class="breadcrumb">
+                <span>Mi Espacio</span>
+                <i class="fa-solid fa-chevron-right" style="font-size: 10px;"></i>
+                <span class="active">Inicio</span>
+            </div>
 
     <!-- Instructor Welcome Header -->
     <div class="view-header" style="background: linear-gradient(135deg, #39A900 0%, #2f8a00 100%); color: white; padding: 40px 30px; border-radius: 12px; margin-bottom: 25px; box-shadow: 0 10px 15px -3px rgba(57,169,0,0.3); display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 20px;">
@@ -61,3 +88,7 @@
         </div>
     </div>
 </div>
+</main>
+<script src="assets/js/Home/instructor_dashboard.js<?= $vs ?>"></script>
+</body>
+</html>

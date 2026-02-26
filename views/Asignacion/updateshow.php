@@ -13,6 +13,22 @@
             <p>Modifique los detalles de la programación.</p>
         </div>
     </div>
+    
+    <?php if(isset($_GET['error'])): ?>
+        <?php if($_GET['error'] == 'duplicate'): ?>
+        <div class='alert alert-danger' style='background-color: #fce4e4; color: #cc0000; border: 1px solid #cc0000; padding: 15px; margin: 20px 0; border-radius: 5px; font-weight: bold;'>
+            <i class="fa-solid fa-circle-exclamation"></i> Error: No se puede actualizar. Ya existe otra programación con estos mismos componentes (Instructor, Ficha, Ambiente y Competencia).
+        </div>
+        <?php elseif($_GET['error'] == 'date_order'): ?>
+        <div class='alert alert-danger' style='background-color: #fce4e4; color: #cc0000; border: 1px solid #cc0000; padding: 15px; margin: 20px 0; border-radius: 5px; font-weight: bold;'>
+            <i class="fa-solid fa-circle-exclamation"></i> Error: La fecha de fin no puede ser anterior a la fecha de inicio.
+        </div>
+        <?php elseif($_GET['error'] == 'max_week'): ?>
+        <div class='alert alert-danger' style='background-color: #fce4e4; color: #cc0000; border: 1px solid #cc0000; padding: 15px; margin: 20px 0; border-radius: 5px; font-weight: bold;'>
+            <i class="fa-solid fa-circle-exclamation"></i> Error: El rango de fechas (Inicio a Fin) no debe exceder 1 semana (7 días) para evitar sobrecarga.
+        </div>
+        <?php endif; ?>
+    <?php endif; ?>
 
     <div class='form-container'>
         <div class='form-side-panel'>
@@ -121,4 +137,28 @@
             </form>
         </div>
     </div>
+
+    <div class='form-container' style='margin-top: 20px;'>
+        <div class='form-main-panel' style='width: 100%; border-left: none;'>
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px;">
+                <h3 style="color: var(--brand-primary); font-family: 'Outfit', sans-serif; margin: 0;">
+                    <i class="fa-regular fa-calendar-check"></i> Calendario del Instructor Seleccionado
+                </h3>
+            </div>
+            <div id='calendar'></div>
+        </div>
+    </div>
 </div>
+
+<!-- FullCalendar CSS y JS -->
+<link href='https://cdn.jsdelivr.net/npm/fullcalendar@5.11.3/main.min.css' rel='stylesheet' />
+<script src='https://cdn.jsdelivr.net/npm/fullcalendar@5.11.3/main.min.js'></script>
+<script src='https://cdn.jsdelivr.net/npm/fullcalendar@5.11.3/locales-all.min.js'></script>
+<link rel="stylesheet" href="assets/css/calendar.css">
+
+<script>
+    window.calendarEventsData = <?php echo isset($eventosJson) ? $eventosJson : '[]'; ?>;
+    window.editingAsigId = '<?php echo $asignacion->getASIG_ID(); ?>';
+</script>
+
+<script src="assets/js/Asignacion/updateshow.js"></script>

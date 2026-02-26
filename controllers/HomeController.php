@@ -8,7 +8,7 @@ class HomeController {
 
         $rol = $_SESSION['rol'] ?? '';
 
-        if ($rol === 'coordinador') {
+        if ($rol === 'centro_formacion' || $rol === 'coordinador') {
             require_once 'views/Home/coordinador_dashboard.php';
         } elseif ($rol === 'instructor') {
             require_once 'views/Home/instructor_dashboard.php';

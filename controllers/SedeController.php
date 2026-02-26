@@ -10,10 +10,20 @@ require_once 'models/Sede.php'; // Siempre requerimos el modelo que vamos a cont
 
 class SedeController {
     
+    public function __construct() {
+        if (session_status() === PHP_SESSION_NONE) {
+            session_start();
+        }
+        if (!isset($_SESSION['rol']) || $_SESSION['rol'] !== 'centro_formacion') {
+            header('Location: ?controller=Home&action=index');
+            exit;
+        }
+    }
+
     // ---------------------------------------------------------
     // ACCIÓN: Mostrar la vista principal (La tabla de registros)
     // ---------------------------------------------------------
-    public function index() {
+    public function index() { 
         // 1. Le pedimos al Modelo "Sede" que nos traiga TODAS las sedes de la base de datos
         // usando la función estática all() que creaste en Sede.php
         $sedes = Sede::all();

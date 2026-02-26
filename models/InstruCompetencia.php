@@ -42,8 +42,26 @@ class InstruCompetencia {
     public static function all(){
         $db=DB::getConnect();
         $listaInstruComp=[];
-        $select=$db->query('SELECT * FROM instru_competencia ORDER BY inscomp_id');
-        foreach($select->fetchAll() as $ic){
+        
+        $centro_id = $_SESSION['centro_id'] ?? null;
+        
+        if ($centro_id !== null && $centro_id !== '') {
+            $select=$db->prepare('
+                SELECT ic.* 
+                FROM instru_competencia ic
+                JOIN instructor i ON ic.INSTRUCTOR_inst_id = i.inst_id
+                WHERE i.CENTRO_FORMACION_cent_id = :centro_id
+                ORDER BY ic.inscomp_id
+            ');
+            $select->bindValue(':centro_id', $centro_id);
+            $select->execute();
+            $results = $select->fetchAll();
+        } else {
+            $select=$db->query('SELECT * FROM instru_competencia ORDER BY inscomp_id');
+            $results = $select->fetchAll();
+        }
+        
+        foreach($results as $ic){
             $listaInstruComp[]=new InstruCompetencia($ic['inscomp_id'],$ic['INSTRUCTOR_inst_id'],$ic['COMPETxPROGRAMA_PROGRAMA_prog_id'],$ic['COMPETxPROGRAMA_COMPETENCIA_comp_id'],$ic['inscomp_vigencia']);
         }
         return $listaInstruComp; 
@@ -51,7 +69,20 @@ class InstruCompetencia {
 
     public static function searchById($inscomp_id){
         $db=DB::getConnect();
-        $select=$db->prepare('SELECT * FROM instru_competencia WHERE inscomp_id=:inscomp_id');
+        $centro_id = $_SESSION['centro_id'] ?? null;
+        
+        if ($centro_id !== null && $centro_id !== '') {
+            $select=$db->prepare('
+                SELECT ic.* 
+                FROM instru_competencia ic
+                JOIN instructor i ON ic.INSTRUCTOR_inst_id = i.inst_id
+                WHERE ic.inscomp_id = :inscomp_id AND i.CENTRO_FORMACION_cent_id = :centro_id
+            ');
+            $select->bindValue('centro_id', $centro_id);
+        } else {
+            $select=$db->prepare('SELECT * FROM instru_competencia WHERE inscomp_id=:inscomp_id');
+        }
+        
         $select->bindValue('inscomp_id',$inscomp_id);
         $select->execute();
 

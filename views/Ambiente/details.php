@@ -10,33 +10,46 @@
     <div class="view-header" style="align-items: center;">
         <div class="view-title-block">
             <h1>Detalles del Ambiente</h1>
-            <p>Información del ambiente.</p>
+            <p>Información de la infraestructura física seleccionada.</p>
         </div>
         <div class="header-actions">
-            <a href="?controller=Ambiente&action=updateshow&id=<?= htmlspecialchars($ambiente->getAmb_id()) ?>" class="btn-action edit" title="Editar" style="padding: 10px 16px; background-color: #f3f4f6; color: #374151; font-weight: 600; text-decoration: none; border-radius: 8px; display: flex; align-items: center; gap: 8px;">
-                <i class="fa-solid fa-pen-to-square"></i> Editar
+            <a href="?controller=Ambiente&action=index" class="btn-secondary" style="text-decoration: none;">
+                <i class="fa-solid fa-arrow-left"></i> Volver a Ambientes
             </a>
-            <a href="?controller=Ambiente&action=delete&id=<?= htmlspecialchars($ambiente->getAmb_id()) ?>" onclick="return confirm('¿Está seguro de eliminar este registro?');" class="btn-action delete" title="Eliminar Ambiente" style="padding: 10px 16px; background-color: #fee2e2; color: #ef4444; text-decoration: none; font-weight: 600; border-radius: 8px; display: flex; align-items: center; gap: 8px; cursor: pointer; border: none;">
-                <i class="fa-solid fa-trash"></i> Eliminar
+            <a href="?controller=Ambiente&action=updateshow&id=<?= htmlspecialchars($ambiente->getAmb_id()) ?>" class="btn-primary" style="text-decoration: none;">
+                <i class="fa-solid fa-pen"></i> Editar
             </a>
         </div>
     </div>
 
-    <div style="background-color: white; border-radius: 12px; padding: 24px; box-shadow: 0 1px 3px rgba(0,0,0,0.05);">
-        <div style="display: grid; grid-template-columns: 1fr; gap: 24px;">
-            <div>
-                <h3 style="font-size: 16px; margin: 0 0 16px 0; color: #111827; border-bottom: 1px solid #e5e7eb; padding-bottom: 8px;">Información General</h3>
-                <div style="margin-bottom: 12px;">
-                    <span style="font-size: 12px; color: #6b7280; font-weight: 600; text-transform: uppercase;">ID del Ambiente</span>
-                    <p style="margin: 4px 0 0 0; font-size: 14px; color: #111827;"><?= htmlspecialchars($ambiente->getAmb_id()) ?></p>
+    <div class="details-card" style="box-shadow: 0 10px 25px rgba(0,0,0,0.05); border: none; border-top: 4px solid var(--brand-primary); background: var(--bg-card);">
+        <div class="details-header" style="border-bottom: 1px solid var(--border-color-light); padding-bottom: 15px; margin-bottom: 20px;">
+            <div class="details-icon" style="background: rgba(57, 169, 0, 0.1); padding: 15px; border-radius: 50%;">
+                <i class="fa-solid fa-chalkboard-user" style="font-size: 28px; color: var(--brand-primary);"></i>
+            </div>
+            <div class="details-title-group" style="padding-left: 15px;">
+                <h3 style="color: var(--text-primary); margin: 0; font-size: 22px;">Ambiente #<?= htmlspecialchars($ambiente->getAmb_id()) ?></h3>
+                <p style="color: var(--text-secondary); margin: 5px 0 0 0; font-size: 14px;">Especificación técnica</p>
+            </div>
+        </div>
+
+        <div class="details-grid" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 20px;">
+            <div class="detail-group" style="background: var(--bg-input); padding: 15px; border-radius: 8px;">
+                <label style="font-size: 11px; text-transform: uppercase; letter-spacing: 1px; color: var(--text-tertiary); font-weight: 700;">ID DEL AMBIENTE</label>
+                <div class="detail-value" style="font-size: 16px; font-weight: 600; color: var(--text-primary); margin-top: 5px;"><?= htmlspecialchars($ambiente->getAmb_id()) ?></div>
+            </div>
+            
+            <div class="detail-group" style="background: var(--bg-input); padding: 15px; border-radius: 8px;">
+                <label style="font-size: 11px; text-transform: uppercase; letter-spacing: 1px; color: var(--text-tertiary); font-weight: 700;">NOMBRE DEL AMBIENTE</label>
+                <div class="detail-value" style="font-size: 16px; font-weight: 600; color: var(--text-primary); margin-top: 5px;">
+                    <i class="fa-solid fa-door-open" style="color: var(--brand-primary); margin-right: 5px;"></i> <?= htmlspecialchars($ambiente->getAmb_nombre()) ?>
                 </div>
-                <div style="margin-bottom: 12px;">
-                    <span style="font-size: 12px; color: #6b7280; font-weight: 600; text-transform: uppercase;">Nombre del Ambiente</span>
-                    <p style="margin: 4px 0 0 0; font-size: 14px; color: #111827;"><?= htmlspecialchars($ambiente->getAmb_nombre()) ?></p>
-                </div>
-                <div style="margin-bottom: 12px;">
-                    <span style="font-size: 12px; color: #6b7280; font-weight: 600; text-transform: uppercase;">ID Sede (Llave Foránea)</span>
-                    <p style="margin: 4px 0 0 0; font-size: 14px; color: #111827;"><?= htmlspecialchars($ambiente->getSEDE_sede_id()) ?></p>
+            </div>
+
+            <div class="detail-group" style="background: var(--bg-input); padding: 15px; border-radius: 8px;">
+                <label style="font-size: 11px; text-transform: uppercase; letter-spacing: 1px; color: var(--text-tertiary); font-weight: 700;">ID SEDE ASIGNADA</label>
+                <div class="detail-value" style="font-size: 16px; font-weight: 600; color: var(--text-primary); margin-top: 5px;">
+                    <i class="fa-solid fa-building-flag" style="color: var(--brand-primary); margin-right: 5px;"></i> <?= htmlspecialchars($ambiente->getSEDE_sede_id()) ?>
                 </div>
             </div>
         </div>

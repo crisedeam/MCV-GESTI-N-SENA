@@ -17,7 +17,23 @@ class AuthController {
 
             $db = DB::getConnect();
 
-            // 1. Buscar en Coordinacion
+            // 1. Buscar en Centro de Formacion (Súper Admin)
+            $stmtCentro = $db->prepare('SELECT * FROM centro_formacion WHERE cent_correo = :correo');
+            $stmtCentro->bindValue('correo', $correo);
+            $stmtCentro->execute();
+            $centro = $stmtCentro->fetch();
+
+            if ($centro && password_verify($password, $centro['cent_password'])) {
+                $_SESSION['usuario_id'] = $centro['cent_id'];
+                $_SESSION['rol'] = 'centro_formacion';
+                $_SESSION['nombre'] = $centro['cent_nombre'];
+                $_SESSION['centro_id'] = $centro['cent_id'];
+                
+                header('Location: ?controller=Home&action=index');
+                exit();
+            }
+
+            // 2. Buscar en Coordinacion
             $stmtCoord = $db->prepare('SELECT * FROM coordinacion WHERE coord_correo = :correo');
             $stmtCoord->bindValue('correo', $correo);
             $stmtCoord->execute();
@@ -28,6 +44,7 @@ class AuthController {
                 $_SESSION['usuario_id'] = $coordinador['coord_id'];
                 $_SESSION['rol'] = 'coordinador';
                 $_SESSION['nombre'] = $coordinador['coord_nombre_coordinador'];
+                $_SESSION['centro_id'] = $coordinador['CENTRO_FORMACION_cent_id'];
                 
                 header('Location: ?controller=Home&action=index');
                 exit();
@@ -44,6 +61,7 @@ class AuthController {
                 $_SESSION['usuario_id'] = $instructor['inst_id'];
                 $_SESSION['rol'] = 'instructor';
                 $_SESSION['nombre'] = $instructor['inst_nombres'] . ' ' . $instructor['inst_apellidos'];
+                $_SESSION['centro_id'] = $instructor['CENTRO_FORMACION_cent_id'];
                 
                 header('Location: ?controller=Home&action=index');
                 exit();

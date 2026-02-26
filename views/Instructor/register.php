@@ -1,6 +1,17 @@
 <?php
 require_once 'models/CentroFormacion.php';
+
+// Si el usuario tiene un centro asignado (es Coordinador o Instructor), solo puede ver su centro.
 $CentroFormacionList = CentroFormacion::all();
+if (isset($_SESSION['centro_id']) && !empty($_SESSION['centro_id'])) {
+    $filteredList = [];
+    foreach ($CentroFormacionList as $centro) {
+        if ($centro->getCent_id() == $_SESSION['centro_id']) {
+            $filteredList[] = $centro;
+        }
+    }
+    $CentroFormacionList = $filteredList;
+}
 ?>
 <div class='view-container'>
     <div class='breadcrumb'>

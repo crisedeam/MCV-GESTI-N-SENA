@@ -10,29 +10,39 @@
     <div class="view-header" style="align-items: center;">
         <div class="view-title-block">
             <h1>Detalles de la Titulación</h1>
-            <p>Información de la titulación seleccionada.</p>
+            <p>Información de la categoría de titulación seleccionada.</p>
         </div>
         <div class="header-actions">
-            <a href="?controller=TituloPrograma&action=updateshow&id=<?= htmlspecialchars($tituloPrograma->getTitpro_id()) ?>" class="btn-action edit" title="Editar" style="padding: 10px 16px; background-color: #f3f4f6; color: #374151; font-weight: 600; text-decoration: none; border-radius: 8px; display: flex; align-items: center; gap: 8px;">
-                <i class="fa-solid fa-pen-to-square"></i> Editar
+            <a href="?controller=TituloPrograma&action=index" class="btn-secondary" style="text-decoration: none;">
+                <i class="fa-solid fa-arrow-left"></i> Volver a Titulaciones
             </a>
-            <a href="?controller=TituloPrograma&action=delete&id=<?= htmlspecialchars($tituloPrograma->getTitpro_id()) ?>" onclick="return confirm('¿Está seguro de eliminar este registro?');" class="btn-action delete" title="Eliminar Titulación" style="padding: 10px 16px; background-color: #fee2e2; color: #ef4444; font-weight: 600; text-decoration: none; border-radius: 8px; display: flex; align-items: center; gap: 8px; cursor: pointer; border: none;">
-                <i class="fa-solid fa-trash"></i> Eliminar
+            <a href="?controller=TituloPrograma&action=updateshow&id=<?= htmlspecialchars($tituloPrograma->getTitpro_id()) ?>" class="btn-primary" style="text-decoration: none;">
+                <i class="fa-solid fa-pen"></i> Editar
             </a>
         </div>
     </div>
 
-    <div style="background-color: white; border-radius: 12px; padding: 24px; box-shadow: 0 1px 3px rgba(0,0,0,0.05);">
-        <div style="display: grid; grid-template-columns: 1fr; gap: 24px;">
-            <div>
-                <h3 style="font-size: 16px; margin: 0 0 16px 0; color: #111827; border-bottom: 1px solid #e5e7eb; padding-bottom: 8px;">Información General</h3>
-                <div style="margin-bottom: 12px;">
-                    <span style="font-size: 12px; color: #6b7280; font-weight: 600; text-transform: uppercase;">Código de Titulación</span>
-                    <p style="margin: 4px 0 0 0; font-size: 14px; color: #111827;"><?= htmlspecialchars($tituloPrograma->getTitpro_id()) ?></p>
-                </div>
-                <div style="margin-bottom: 12px;">
-                    <span style="font-size: 12px; color: #6b7280; font-weight: 600; text-transform: uppercase;">Denominación</span>
-                    <p style="margin: 4px 0 0 0; font-size: 14px; color: #111827;"><?= htmlspecialchars($tituloPrograma->getTitpro_nombre()) ?></p>
+    <div class="details-card" style="box-shadow: 0 10px 25px rgba(0,0,0,0.05); border: none; border-top: 4px solid var(--brand-primary); background: var(--bg-card);">
+        <div class="details-header" style="border-bottom: 1px solid var(--border-color-light); padding-bottom: 15px; margin-bottom: 20px;">
+            <div class="details-icon" style="background: rgba(57, 169, 0, 0.1); padding: 15px; border-radius: 50%;">
+                <i class="fa-solid fa-award" style="font-size: 28px; color: var(--brand-primary);"></i>
+            </div>
+            <div class="details-title-group" style="padding-left: 15px;">
+                <h3 style="color: var(--text-primary); margin: 0; font-size: 22px;">Titulación #<?= htmlspecialchars($tituloPrograma->getTitpro_id()) ?></h3>
+                <p style="color: var(--text-secondary); margin: 5px 0 0 0; font-size: 14px;">Nivel o grado de certificación</p>
+            </div>
+        </div>
+
+        <div class="details-grid" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 20px;">
+            <div class="detail-group" style="background: var(--bg-input); padding: 15px; border-radius: 8px;">
+                <label style="font-size: 11px; text-transform: uppercase; letter-spacing: 1px; color: var(--text-tertiary); font-weight: 700;">CÓDIGO DE TITULACIÓN</label>
+                <div class="detail-value" style="font-size: 16px; font-weight: 600; color: var(--text-primary); margin-top: 5px;"><?= htmlspecialchars($tituloPrograma->getTitpro_id()) ?></div>
+            </div>
+            
+            <div class="detail-group" style="background: var(--bg-input); padding: 15px; border-radius: 8px;">
+                <label style="font-size: 11px; text-transform: uppercase; letter-spacing: 1px; color: var(--text-tertiary); font-weight: 700;">NOMBRE O DENOMINACIÓN</label>
+                <div class="detail-value" style="font-size: 16px; font-weight: 600; color: var(--text-primary); margin-top: 5px;">
+                    <i class="fa-solid fa-certificate" style="color: var(--brand-primary); margin-right: 5px;"></i> <?= htmlspecialchars($tituloPrograma->getTitpro_nombre()) ?>
                 </div>
             </div>
         </div>

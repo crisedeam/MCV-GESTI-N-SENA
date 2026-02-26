@@ -15,7 +15,17 @@ require_once 'models/CentroFormacion.php';
 class CentroFormacionController {
 
     // 1. Mostrar la tabla de registros
-    public function index() {
+    public function __construct() {
+        if (session_status() === PHP_SESSION_NONE) {
+            session_start();
+        }
+        if (!isset($_SESSION['rol']) || $_SESSION['rol'] !== 'centro_formacion') {
+            header('Location: ?controller=Home&action=index');
+            exit;
+        }
+    }
+
+    public function index() { 
         static $listaCentros = [];
         $listaCentros = CentroFormacion::all();
         $totalCentros = count($listaCentros);

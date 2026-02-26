@@ -36,8 +36,26 @@ class DetalleAsignacion {
     public static function all(){
         $db=DB::getConnect();
         $listaDetalles=[];
-        $select=$db->query('SELECT * FROM detallexasignacion ORDER BY detasig_id');
-        foreach($select->fetchAll() as $detalle){
+        $centro_id = $_SESSION['centro_id'] ?? null;
+        
+        if ($centro_id !== null && $centro_id !== '') {
+            $select=$db->prepare('
+                SELECT d.* 
+                FROM detallexasignacion d
+                JOIN asignacion a ON d.ASIGNACION_ASIG_ID = a.ASIG_ID
+                JOIN instructor i ON a.INSTRUCTOR_inst_id = i.inst_id
+                WHERE i.CENTRO_FORMACION_cent_id = :centro_id
+                ORDER BY d.detasig_id
+            ');
+            $select->bindValue(':centro_id', $centro_id);
+            $select->execute();
+            $results = $select->fetchAll();
+        } else {
+            $select=$db->query('SELECT * FROM detallexasignacion ORDER BY detasig_id');
+            $results = $select->fetchAll();
+        }
+        
+        foreach($results as $detalle){
             $listaDetalles[]=new DetalleAsignacion($detalle['detasig_id'],$detalle['ASIGNACION_ASIG_ID'],$detalle['detasig_hora_ini'],$detalle['detasig_hora_fin']);
         }
         return $listaDetalles; 
@@ -45,7 +63,21 @@ class DetalleAsignacion {
 
     public static function searchById($detasig_id){
         $db=DB::getConnect();
-        $select=$db->prepare('SELECT * FROM detallexasignacion WHERE detasig_id=:detasig_id');
+        $centro_id = $_SESSION['centro_id'] ?? null;
+        
+        if ($centro_id !== null && $centro_id !== '') {
+            $select=$db->prepare('
+                SELECT d.* 
+                FROM detallexasignacion d
+                JOIN asignacion a ON d.ASIGNACION_ASIG_ID = a.ASIG_ID
+                JOIN instructor i ON a.INSTRUCTOR_inst_id = i.inst_id
+                WHERE d.detasig_id=:detasig_id AND i.CENTRO_FORMACION_cent_id = :centro_id
+            ');
+            $select->bindValue('centro_id', $centro_id);
+        } else {
+            $select=$db->prepare('SELECT * FROM detallexasignacion WHERE detasig_id=:detasig_id');
+        }
+        
         $select->bindValue('detasig_id',$detasig_id);
         $select->execute();
 
@@ -71,6 +103,13 @@ class DetalleAsignacion {
         $db=DB::getConnect();
         $delete=$db->prepare('DELETE FROM detallexasignacion WHERE detasig_id=:detasig_id');
         $delete->bindValue('detasig_id',$detasig_id);
+        $delete->execute();	
+    }
+
+    public static function deleteByAsignacionId($ASIG_ID){
+        $db=DB::getConnect();
+        $delete=$db->prepare('DELETE FROM detallexasignacion WHERE ASIGNACION_ASIG_ID=:ASIG_ID');
+        $delete->bindValue('ASIG_ID',$ASIG_ID);
         $delete->execute();	
     }
 }

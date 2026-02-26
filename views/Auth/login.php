@@ -18,77 +18,54 @@
         <i class="fa-solid fa-moon"></i> Oscuro
     </button>
 
-    <div class="login-container">
-        <div class="logo-container">
-            <!-- Asumiendo que hay un logo en la ruta. Ajusta si es necesario -->
-            <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/8/83/Sena_Colombia_logo.svg/1024px-Sena_Colombia_logo.svg.png" alt="SENA Logo">
+    <div class="login-wrapper">
+        <!-- SECCIÓN DE IMAGEN -->
+        <div class="login-image-section">
+            <div class="login-image-overlay">
+                <h1>Sistema de Gestión de Ambientes</h1>
+                <p>Planifica y administra los recursos de formación del SENA de manera eficiente y moderna.</p>
+            </div>
         </div>
-        
-        <h2>Bienvenido</h2>
-        <p class="subtitle">Ingrese al Sistema de Gestión de Ambientes</p>
 
-        <?php if (isset($_GET['error']) && $_GET['error'] == 'invalid_credentials'): ?>
-            <div class="error-message">
-                <i class="fa-solid fa-circle-exclamation"></i>
-                Correo o contraseña incorrectos.
+        <!-- SECCIÓN DEL FORMULARIO -->
+        <div class="login-form-section">
+            <div class="logo-container">
+                <!-- Asumiendo que hay un logo en la ruta. Ajusta si es necesario -->
+                <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/8/83/Sena_Colombia_logo.svg/1024px-Sena_Colombia_logo.svg.png" alt="SENA Logo">
             </div>
-        <?php endif; ?>
+            
+            <h2>Bienvenido</h2>
+            <p class="subtitle">Ingrese al Sistema de Gestión de Ambientes</p>
 
-        <form action="?controller=Auth&action=authenticate" method="POST">
-            <div class="form-group">
-                <label for="correo">Correo Electrónico</label>
-                <div class="input-group">
-                    <i class="fa-regular fa-envelope"></i>
-                    <input type="email" id="correo" name="correo" placeholder="ejemplo@sena.edu.co" required>
+            <?php if (isset($_GET['error']) && $_GET['error'] == 'invalid_credentials'): ?>
+                <div class="error-message">
+                    <i class="fa-solid fa-circle-exclamation"></i>
+                    Correo o contraseña incorrectos.
                 </div>
-            </div>
+            <?php endif; ?>
 
-            <div class="form-group">
-                <label for="password">Contraseña</label>
-                <div class="input-group">
-                    <i class="fa-solid fa-lock"></i>
-                    <input type="password" id="password" name="password" placeholder="••••••••" required>
+            <form action="?controller=Auth&action=authenticate" method="POST">
+                <div class="form-group">
+                    <label for="correo">Correo Electrónico</label>
+                    <div class="input-group">
+                        <i class="fa-regular fa-envelope"></i>
+                        <input type="email" id="correo" name="correo" placeholder="ejemplo@sena.edu.co" required>
+                    </div>
                 </div>
-            </div>
 
-            <button type="submit">Iniciar Sesión</button>
-        </form>
+                <div class="form-group">
+                    <label for="password">Contraseña</label>
+                    <div class="input-group">
+                        <i class="fa-solid fa-lock"></i>
+                        <input type="password" id="password" name="password" placeholder="••••••••" required>
+                    </div>
+                </div>
+
+                <button type="submit">Iniciar Sesión</button>
+            </form>
+        </div>
     </div>
 
-    <!-- MODO OSCURO (DARK THEME) SCRIPT -->
-    <script>
-        document.addEventListener('DOMContentLoaded', () => {
-            const themeToggleBtn = document.getElementById('themeToggleBtn');
-            const currentTheme = localStorage.getItem('theme');
-
-            if (currentTheme) {
-                document.body.classList.add(currentTheme);
-                if (currentTheme === 'dark-theme' && themeToggleBtn) {
-                    themeToggleBtn.innerHTML = '<i class="fa-solid fa-sun"></i> Claro';
-                }
-            }
-
-            if(themeToggleBtn) {
-                themeToggleBtn.addEventListener('click', (e) => {
-                    e.preventDefault();
-                    document.body.classList.toggle('dark-theme');
-                    // Ensure light-theme is removed if it was present
-                    document.body.classList.remove('light-theme');
-                    
-                    let theme = 'light-theme';
-                    
-                    if (document.body.classList.contains('dark-theme')) {
-                        theme = 'dark-theme';
-                        themeToggleBtn.innerHTML = '<i class="fa-solid fa-sun"></i> Claro';
-                    } else {
-                        themeToggleBtn.innerHTML = '<i class="fa-solid fa-moon"></i> Oscuro';
-                        document.body.classList.add('light-theme');
-                    }
-                    
-                    localStorage.setItem('theme', theme);
-                });
-            }
-        });
-    </script>
+    <script src="assets/js/Auth/login.js<?= $vs ?>"></script>
 </body>
 </html>

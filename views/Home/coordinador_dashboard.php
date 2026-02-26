@@ -1,9 +1,36 @@
-<div class="view-container">
-    <div class="breadcrumb">
-        <span>Gestión</span>
-        <i class="fa-solid fa-chevron-right" style="font-size: 10px;"></i>
-        <span class="active">Inicio</span>
-    </div>
+<?php
+if (session_status() === PHP_SESSION_NONE) {
+    session_start();
+}
+?>
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Inicio - SENA</title>
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <!-- FontAwesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <?php lcg_value(); $vs = '?v=' . time(); ?>
+    <link rel="stylesheet" href="assets/css/main.css<?= $vs ?>">
+    <link rel="stylesheet" href="assets/css/sidebar.css<?= $vs ?>">
+</head>
+<body class="light-theme">
+
+    <?php 
+    $currentController = 'Home';
+    include 'views/layouts/sidebar.php'; 
+    ?>
+
+    <main class="main-content">
+        <div class="view-container">
+            <div class="breadcrumb">
+                <span>Gestión</span>
+                <i class="fa-solid fa-chevron-right" style="font-size: 10px;"></i>
+                <span class="active">Inicio</span>
+            </div>
 
     <div class="view-header">
         <div class="view-title-block">
@@ -63,9 +90,20 @@
     <div style="margin-top: 30px; background: var(--bg-card); border-radius: 8px; box-shadow: 0 4px 6px rgba(0,0,0,0.05); padding: 20px;">
         <h3 style="margin-top: 0; margin-bottom: 15px; font-size: 16px; color: var(--text-primary); border-bottom: 1px solid var(--border-color); padding-bottom: 10px;">Acciones Rápidas</h3>
         <div style="display: flex; gap: 15px; flex-wrap: wrap;">
-            <a href="?controller=Ambiente&action=register" class="btn-primary" style="text-decoration: none;"><i class="fa-solid fa-plus"></i> Nuevo Ambiente</a>
-            <a href="?controller=Instructor&action=register" class="btn-primary" style="text-decoration: none; background-color: #2563eb; border-color: #2563eb;"><i class="fa-solid fa-plus"></i> Nuevo Instructor</a>
-            <a href="?controller=Asignacion&action=register" class="btn-primary" style="text-decoration: none; background-color: #9333ea; border-color: #9333ea;"><i class="fa-solid fa-plus"></i> Nueva Asignación</a>
+            <?php if (isset($_SESSION['rol']) && $_SESSION['rol'] === 'centro_formacion'): ?>
+                <a href="?controller=Ambiente&action=register" class="btn-primary" style="text-decoration: none;"><i class="fa-solid fa-plus"></i> Nuevo Ambiente</a>
+                <a href="?controller=Instructor&action=register" class="btn-primary" style="text-decoration: none; background-color: #2563eb; border-color: #2563eb;"><i class="fa-solid fa-plus"></i> Nuevo Instructor</a>
+                <a href="?controller=Sede&action=register" class="btn-primary" style="text-decoration: none; background-color: #9333ea; border-color: #9333ea;"><i class="fa-solid fa-plus"></i> Nueva Sede</a>
+            <?php else: ?>
+                <a href="?controller=Ficha&action=register" class="btn-primary" style="text-decoration: none;"><i class="fa-solid fa-plus"></i> Nueva Ficha</a>
+                <a href="?controller=InstruCompetencia&action=register" class="btn-primary" style="text-decoration: none; background-color: #2563eb; border-color: #2563eb;"><i class="fa-solid fa-plus"></i> Nuevo Aval</a>
+                <a href="?controller=Asignacion&action=register" class="btn-primary" style="text-decoration: none; background-color: #9333ea; border-color: #9333ea;"><i class="fa-solid fa-plus"></i> Nueva Asignación</a>
+            <?php endif; ?>
+        </div>
         </div>
     </div>
 </div>
+</main>
+<script src="assets/js/Home/coordinador_dashboard.js<?= $vs ?>"></script>
+</body>
+</html>

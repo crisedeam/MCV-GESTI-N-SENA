@@ -92,3 +92,42 @@ body {
     min-height: 100vh;
     box-sizing: border-box;
 }
+
+/* Responsive adjustments for main.css */
+.mobile-header {
+    display: none;
+    align-items: center;
+    gap: 15px;
+    padding: 15px 20px;
+    background-color: var(--bg-card);
+    border-bottom: 1px solid var(--border-color);
+    margin: -30px -30px 20px -30px;
+}
+
+.mobile-logo {
+    font-size: 18px;
+    font-weight: 700;
+    color: var(--brand-primary);
+}
+
+.menu-toggle {
+    background: transparent;
+    border: none;
+    font-size: 24px;
+    color: var(--text-primary);
+    cursor: pointer;
+    padding: 5px;
+}
+
+@media (max-width: 768px) {
+    .content-area {
+        margin-left: 0;
+        width: 100%;
+        padding: 15px;
+    }
+
+    .mobile-header {
+        display: flex;
+        margin: -15px -15px 20px -15px;
+    }
+}

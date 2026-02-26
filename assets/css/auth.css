@@ -4,22 +4,92 @@ body {
     font-family: 'Outfit', sans-serif;
     margin: 0;
     padding: 0;
-    background-color: var(--bg-body);
     height: 100vh;
     display: flex;
     align-items: center;
     justify-content: center;
+    position: relative;
+    background-color: var(--bg-body);
 }
 
-.login-container {
+body::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    /* Aplicar la imagen descargada de fondo con un overlay oscuro para legibilidad */
+    background-image: linear-gradient(rgba(0, 0, 0, 0.45), rgba(0, 0, 0, 0.6)), url('../img/login_building.jpg');
+    background-size: cover;
+    background-position: center;
+    /* Efecto borroso de profundidad */
+    filter: blur(8px);
+    z-index: -1;
+    /* Escalar ligeramente para que los bordes borrosos no se vean transparentes */
+    transform: scale(1.03);
+}
+
+.login-wrapper {
+    display: flex;
+    width: 1000px;
+    max-width: 95%;
+    min-height: 550px;
     background-color: var(--bg-card);
-    padding: 2.5rem;
-    border-radius: 12px;
-    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
-    width: 100%;
-    max-width: 400px;
+    border-radius: 20px;
+    overflow: hidden;
+    box-shadow: 0 20px 50px rgba(0, 0, 0, 0.35); /* Sombra más fuerte para contrastar el fondo borroso */
     border: 1px solid var(--border-color);
-    /* Added soft border for dark mode depth */
+    transition: transform 0.3s ease;
+}
+
+.login-image-section {
+    flex: 1.2;
+    background-image: url('../img/colombia_bg.png');
+    background-size: cover;
+    background-position: center;
+    position: relative;
+    display: none;
+}
+
+/* Mostrar la imagen solo en pantallas medianas o grandes */
+@media (min-width: 768px) {
+    .login-image-section {
+        display: block;
+    }
+}
+
+.login-image-overlay {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(135deg, rgba(57, 169, 0, 0.45) 0%, rgba(30, 64, 175, 0.45) 100%);
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    padding: 3rem;
+    color: white;
+}
+
+.login-image-overlay h1 {
+    font-size: 2.2rem;
+    font-weight: 700;
+    margin-bottom: 0.5rem;
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+}
+
+.login-image-overlay p {
+    font-size: 1.1rem;
+    text-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
+    line-height: 1.5;
+    opacity: 0.9;
+}
+
+.login-form-section {
+    flex: 1;
+    padding: 3.5rem 2.5rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
 }
 
 .logo-container {
@@ -28,24 +98,30 @@ body {
 }
 
 .logo-container img {
-    width: 80px;
+    width: 90px;
     height: auto;
     /* CSS filter to turn the orange logo into the SENA green logo */
     filter: brightness(0) saturate(100%) invert(48%) sepia(97%) saturate(1212%) hue-rotate(65deg) brightness(95%) contrast(101%);
+    transition: transform 0.3s;
+}
+
+.logo-container img:hover {
+    transform: scale(1.05);
 }
 
 h2 {
     text-align: center;
     color: var(--text-primary);
     margin-bottom: 0.5rem;
-    font-weight: 600;
+    font-weight: 700;
+    font-size: 1.8rem;
 }
 
 p.subtitle {
     text-align: center;
     color: var(--text-secondary);
     margin-bottom: 2rem;
-    font-size: 0.9rem;
+    font-size: 0.95rem;
 }
 
 .form-group {
@@ -66,19 +142,20 @@ label {
 
 .input-group i {
     position: absolute;
-    left: 12px;
+    left: 14px;
     top: 50%;
     transform: translateY(-50%);
     color: var(--text-tertiary);
+    font-size: 1.1rem;
 }
 
 input {
     width: 100%;
-    padding: 10px 10px 10px 35px;
+    padding: 12px 12px 12px 42px;
     border: 1px solid var(--border-color);
     background-color: var(--bg-input);
     color: var(--text-primary);
-    border-radius: 8px;
+    border-radius: 10px;
     font-family: 'Outfit', sans-serif;
     font-size: 1rem;
     box-sizing: border-box;
@@ -89,38 +166,64 @@ input:focus {
     outline: none;
     border-color: var(--brand-primary);
     background-color: var(--bg-card);
-    box-shadow: 0 0 0 3px rgba(57, 169, 0, 0.2);
+    box-shadow: 0 0 0 4px rgba(57, 169, 0, 0.15);
 }
 
-button {
+button[type="submit"] {
     width: 100%;
-    padding: 12px;
+    padding: 14px;
     background-color: var(--brand-primary);
     color: white;
     border: none;
-    border-radius: 8px;
+    border-radius: 10px;
     font-family: 'Outfit', sans-serif;
     font-weight: 600;
-    font-size: 1rem;
+    font-size: 1.05rem;
     cursor: pointer;
-    transition: background-color 0.2s;
+    transition: all 0.2s;
+    margin-top: 1rem;
+    box-shadow: 0 4px 6px rgba(57, 169, 0, 0.2);
 }
 
-button:hover {
+button[type="submit"]:hover {
     background-color: var(--brand-primary-hover);
+    transform: translateY(-2px);
+    box-shadow: 0 6px 12px rgba(57, 169, 0, 0.3);
+}
+
+button[type="submit"]:active {
+    transform: translateY(0);
 }
 
 .error-message {
     background-color: var(--danger-bg);
     color: var(--danger);
-    padding: 10px;
+    padding: 12px;
     border-radius: 8px;
     margin-bottom: 1.5rem;
-    font-size: 0.85rem;
+    font-size: 0.9rem;
+    font-weight: 500;
     text-align: center;
     border: 1px solid var(--danger);
     display: flex;
     align-items: center;
     justify-content: center;
     gap: 8px;
+    animation: shake 0.5s ease-in-out;
+}
+
+@keyframes shake {
+
+    0%,
+    100% {
+        transform: translateX(0);
+    }
+
+    25% {
+        transform: translateX(-5px);
+    }
+
+    75% {
+        transform: translateX(5px);
+    }
 }

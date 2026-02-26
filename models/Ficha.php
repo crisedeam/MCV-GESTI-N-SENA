@@ -71,29 +71,59 @@ class Ficha {
     $insert->bindValue('fich_fecha_fin_lectiva',$ficha->getFich_fecha_fin_lectiva());
     $insert->execute();
  }
- public static function all(){
-    $db=DB::getConnect();
-    $listaFichas=[];
-    $select=$db->query('SELECT * FROM ficha ORDER BY fich_id');
-    foreach($select->fetchAll() as $ficha){
-        $listaFichas[]=new Ficha($ficha['fich_id'],$ficha['PROGRAMA_prog_id'],$ficha['INSTRUCTOR_inst_id_lider'],$ficha['fich_jornada'],$ficha['COORDINACION_coord_id'],$ficha['fich_fecha_ini_lectiva'],$ficha['fich_fecha_fin_lectiva']);
+    public static function all(){
+        $db=DB::getConnect();
+        $listaFichas=[];
+        $centro_id = $_SESSION['centro_id'] ?? null;
+        
+        if ($centro_id !== null && $centro_id !== '') {
+            $select=$db->prepare('
+                SELECT f.* 
+                FROM ficha f
+                JOIN instructor i ON f.INSTRUCTOR_inst_id_lider = i.inst_id
+                WHERE i.CENTRO_FORMACION_cent_id = :centro_id
+                ORDER BY f.fich_id
+            ');
+            $select->bindValue(':centro_id', $centro_id);
+            $select->execute();
+            $results = $select->fetchAll();
+        } else {
+            $select=$db->query('SELECT * FROM ficha ORDER BY fich_id');
+            $results = $select->fetchAll();
+        }
+        
+        foreach($results as $ficha){
+            $listaFichas[]=new Ficha($ficha['fich_id'],$ficha['PROGRAMA_prog_id'],$ficha['INSTRUCTOR_inst_id_lider'],$ficha['fich_jornada'],$ficha['COORDINACION_coord_id'],$ficha['fich_fecha_ini_lectiva'],$ficha['fich_fecha_fin_lectiva']);
+        }
+        return $listaFichas; 
     }
-    return $listaFichas; 
- }
- public static function searchById($fich_id){
-    $db=DB::getConnect();
-    $select=$db->prepare('SELECT * FROM ficha WHERE fich_id=:fich_id');
-    $select->bindValue('fich_id',$fich_id);
-    $select->execute();
+    public static function searchById($fich_id){
+        $db=DB::getConnect();
+        $centro_id = $_SESSION['centro_id'] ?? null;
+        
+        if ($centro_id !== null && $centro_id !== '') {
+            $select=$db->prepare('
+                SELECT f.* 
+                FROM ficha f
+                JOIN instructor i ON f.INSTRUCTOR_inst_id_lider = i.inst_id
+                WHERE f.fich_id = :fich_id AND i.CENTRO_FORMACION_cent_id = :centro_id
+            ');
+            $select->bindValue('centro_id', $centro_id);
+        } else {
+            $select=$db->prepare('SELECT * FROM ficha WHERE fich_id=:fich_id');
+        }
+        
+        $select->bindValue('fich_id',$fich_id);
+        $select->execute();
 
-    $fichaDb=$select->fetch();
+        $fichaDb=$select->fetch();
 
-    if ($fichaDb) {
-        $ficha = new Ficha ($fichaDb['fich_id'],$fichaDb['PROGRAMA_prog_id'], $fichaDb['INSTRUCTOR_inst_id_lider'], $fichaDb['fich_jornada'], $fichaDb['COORDINACION_coord_id'], $fichaDb['fich_fecha_ini_lectiva'], $fichaDb['fich_fecha_fin_lectiva']);
-        return $ficha;
+        if ($fichaDb) {
+            $ficha = new Ficha ($fichaDb['fich_id'],$fichaDb['PROGRAMA_prog_id'], $fichaDb['INSTRUCTOR_inst_id_lider'], $fichaDb['fich_jornada'], $fichaDb['COORDINACION_coord_id'], $fichaDb['fich_fecha_ini_lectiva'], $fichaDb['fich_fecha_fin_lectiva']);
+            return $ficha;
+        }
+        return null;
     }
-    return null;
- }
  public static function update($ficha){
     $db=DB::getConnect();
     $update=$db->prepare('UPDATE ficha SET PROGRAMA_prog_id=:PROGRAMA_prog_id, INSTRUCTOR_inst_id_lider=:INSTRUCTOR_inst_id_lider, fich_jornada=:fich_jornada, COORDINACION_coord_id=:COORDINACION_coord_id, fich_fecha_ini_lectiva=:fich_fecha_ini_lectiva, fich_fecha_fin_lectiva=:fich_fecha_fin_lectiva WHERE fich_id=:fich_id');

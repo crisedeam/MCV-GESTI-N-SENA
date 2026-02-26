@@ -60,7 +60,8 @@
     max-width: 100%;
 }
 
-.search-box input {
+.search-box input,
+.search-box select {
     width: 100%;
     padding: 10px 16px 10px 40px;
     border: 1px solid var(--border-color);
@@ -73,7 +74,18 @@
     transition: all 0.2s ease;
 }
 
-.search-box input:focus {
+.search-box select {
+    cursor: pointer;
+    appearance: none;
+    background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6 9 12 15 18 9'%3e%3c/polyline%3e%3c/svg%3e");
+    background-repeat: no-repeat;
+    background-position: right 1rem center;
+    background-size: 1em;
+    padding-right: 40px;
+}
+
+.search-box input:focus,
+.search-box select:focus {
     outline: none;
     border-color: var(--brand-primary);
     background-color: var(--bg-card);
@@ -423,5 +435,17 @@ tbody tr:hover {
     .btn-primary {
         justify-content: center;
         width: 100%;
+    }
+
+    .dashboard-grid {
+        flex-direction: column;
+    }
+
+    .table-card {
+        overflow-x: auto;
+    }
+
+    .bottom-grid {
+        grid-template-columns: 1fr;
     }
 }

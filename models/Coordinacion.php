@@ -64,29 +64,48 @@ public static function save($coordinacion){
     $insert->bindValue('coord_password', $hashedPassword);
     $insert->execute();
 }   
-public static function all(){
-    $db=DB::getConnect();
-    $listaCoordinacions=[];
-    $select=$db->query('SELECT * FROM coordinacion ORDER BY coord_id');
-    foreach($select->fetchAll() as $coordinacion){
-        $listaCoordinacions[]=new Coordinacion($coordinacion['coord_id'],$coordinacion['coord_descripcion'],$coordinacion['CENTRO_FORMACION_cent_id'],$coordinacion['coord_nombre_coordinador'],$coordinacion['coord_correo'],$coordinacion['coord_password']);
-    }
-    return $listaCoordinacions; 
-}   
-public static function searchById($coord_id){
-    $db=DB::getConnect();
-    $select=$db->prepare('SELECT * FROM coordinacion WHERE coord_id=:coord_id');
-    $select->bindValue('coord_id',$coord_id);
-    $select->execute();
+    public static function all(){
+        $db=DB::getConnect();
+        $listaCoordinacions=[];
+        $centro_id = $_SESSION['centro_id'] ?? null;
+        
+        if ($centro_id !== null && $centro_id !== '') {
+            $select=$db->prepare('SELECT * FROM coordinacion WHERE CENTRO_FORMACION_cent_id = :centro_id ORDER BY coord_id');
+            $select->bindValue(':centro_id', $centro_id);
+            $select->execute();
+            $results = $select->fetchAll();
+        } else {
+            $select=$db->query('SELECT * FROM coordinacion ORDER BY coord_id');
+            $results = $select->fetchAll();
+        }
+        
+        foreach($results as $coordinacion){
+            $listaCoordinacions[]=new Coordinacion($coordinacion['coord_id'],$coordinacion['coord_descripcion'],$coordinacion['CENTRO_FORMACION_cent_id'],$coordinacion['coord_nombre_coordinador'],$coordinacion['coord_correo'],$coordinacion['coord_password']);
+        }
+        return $listaCoordinacions; 
+    }   
+    public static function searchById($coord_id){
+        $db=DB::getConnect();
+        
+        $centro_id = $_SESSION['centro_id'] ?? null;
+        if ($centro_id !== null && $centro_id !== '') {
+            $select=$db->prepare('SELECT * FROM coordinacion WHERE coord_id=:coord_id AND CENTRO_FORMACION_cent_id = :centro_id');
+            $select->bindValue('centro_id', $centro_id);
+        } else {
+            $select=$db->prepare('SELECT * FROM coordinacion WHERE coord_id=:coord_id');
+        }
+        
+        $select->bindValue('coord_id',$coord_id);
+        $select->execute();
 
-    $coordinacionDb=$select->fetch();
+        $coordinacionDb=$select->fetch();
 
-    if ($coordinacionDb) {
-        $coordinacion = new Coordinacion ($coordinacionDb['coord_id'],$coordinacionDb['coord_descripcion'],$coordinacionDb['CENTRO_FORMACION_cent_id'],$coordinacionDb['coord_nombre_coordinador'],$coordinacionDb['coord_correo'],$coordinacionDb['coord_password']);
-        return $coordinacion;
+        if ($coordinacionDb) {
+            $coordinacion = new Coordinacion ($coordinacionDb['coord_id'],$coordinacionDb['coord_descripcion'],$coordinacionDb['CENTRO_FORMACION_cent_id'],$coordinacionDb['coord_nombre_coordinador'],$coordinacionDb['coord_correo'],$coordinacionDb['coord_password']);
+            return $coordinacion;
+        }
+        return null;
     }
-    return null;
-}
 public static function update($coordinacion){
     $db=DB::getConnect();
     

@@ -54,5 +54,23 @@ class CompetenciaController {
             }
         }
     }
+
+    public function getByPrograma() {
+        if (isset($_GET['prog_id'])) {
+            $prog_id = $_GET['prog_id'];
+            $competencias = Competencia::getByPrograma($prog_id);
+            $result = [];
+            foreach($competencias as $comp) {
+                $result[] = [
+                    'id' => $comp->getComp_id(),
+                    'nombre' => $comp->getComp_nombre_corto()
+                ];
+            }
+            ob_clean();
+            header('Content-Type: application/json');
+            echo json_encode($result);
+            exit;
+        }
+    }
 }
 ?>

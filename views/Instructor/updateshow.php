@@ -1,6 +1,16 @@
 <?php
 require_once 'models/CentroFormacion.php';
+
 $CentroFormacionList = CentroFormacion::all();
+if (isset($_SESSION['centro_id']) && !empty($_SESSION['centro_id'])) {
+    $filteredList = [];
+    foreach ($CentroFormacionList as $centro) {
+        if ($centro->getCent_id() == $_SESSION['centro_id']) {
+            $filteredList[] = $centro;
+        }
+    }
+    $CentroFormacionList = $filteredList;
+}
 ?>
 <div class='view-container'>
     <div class='breadcrumb'>

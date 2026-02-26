@@ -9,6 +9,7 @@ SET time_zone = "+00:00";
 -- -----------------------------------------------------
 -- Schema ProgSENA
 -- -----------------------------------------------------
+DROP SCHEMA IF EXISTS `ProgSENA`;
 CREATE SCHEMA IF NOT EXISTS `ProgSENA` DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci;
 USE `ProgSENA`;
 
@@ -51,8 +52,11 @@ CREATE TABLE IF NOT EXISTS `COMPETENCIA` (
 CREATE TABLE IF NOT EXISTS `CENTRO_FORMACION` (
   `cent_id` INT(11) NOT NULL,
   `cent_nombre` VARCHAR(100) NOT NULL,
+  `cent_correo` VARCHAR(45) NOT NULL,
+  `cent_password` VARCHAR(255) NOT NULL,
   PRIMARY KEY (`cent_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
 
 -- -----------------------------------------------------
 -- Table `INSTRUCTOR`
@@ -191,8 +195,13 @@ CREATE TABLE IF NOT EXISTS `INSTRU_COMPETENCIA` (
 
 COMMIT;
 
--- Inserción de un Coordinador Base para poder iniciar sesión inicialmente
--- La contraseña será 'admin123' (podremos editarla luego o encriptarla más adelante)
-INSERT INTO `CENTRO_FORMACION` (`cent_id`, `cent_nombre`) VALUES (1, 'Centro Base Principal');
+-- Inserción de un Centro de Formación (Súper Admin)
+INSERT INTO `CENTRO_FORMACION` (`cent_id`, `cent_nombre`, `cent_correo`, `cent_password`) VALUES (1, 'Centro Base Principal', 'centro@sena.edu.co', '$2y$10$qKvIsPxVzXYOf6tobuinWOfZ14UtfwpjKGt3ZT8uT1A1T8Dy/7S6i');
+
+-- Inserción de un Coordinador Base
 INSERT INTO `COORDINACION` (`coord_id`, `coord_descripcion`, `CENTRO_FORMACION_cent_id`, `coord_nombre_coordinador`, `coord_correo`, `coord_password`) 
-VALUES (1, 'Coordinación General', 1, 'Admin Sistema', 'admin@sena.edu.co', '$2y$10$qKvIsPxVzXYOf6tobuinWOfZ14UtfwpjKGt3ZT8uT1A1T8Dy/7S6i');
+VALUES (1, 'Coordinación General', 1, 'Coordinador Sistema', 'coordinador@sena.edu.co', '$2y$10$qKvIsPxVzXYOf6tobuinWOfZ14UtfwpjKGt3ZT8uT1A1T8Dy/7S6i');
+
+-- Inserción de un Instructor Base
+INSERT INTO `INSTRUCTOR` (`inst_id`, `inst_nombres`, `inst_apellidos`, `inst_correo`, `inst_telefono`, `CENTRO_FORMACION_cent_id`, `inst_password`) 
+VALUES (1, 'Instructor', 'Prueba', 'instructor@sena.edu.co', 3001234567, 1, '$2y$10$qKvIsPxVzXYOf6tobuinWOfZ14UtfwpjKGt3ZT8uT1A1T8Dy/7S6i');

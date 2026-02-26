@@ -38,12 +38,23 @@ if (!isset($_SESSION['usuario_id'])) {
         <!-- Si es Auth (Login), no mostramos sidebar y renderizamos completo -->
         <?php require_once 'routing.php'; ?>
     <?php else: ?>
+        <div class="sidebar-overlay" id="sidebarOverlay"></div>
         <div class="main-container">
             <!-- Sidebar -->
             <?php include_once 'views/layouts/sidebar.php'; ?>
 
             <!-- Main Content Area where views will be loaded -->
             <main class="content-area">
+                <!-- Mobile Logo and Toggle -->
+                <div class="mobile-header">
+                    <button class="menu-toggle" id="mobileMenuBtn">
+                        <i class="fa-solid fa-bars"></i>
+                    </button>
+                    <div class="mobile-logo">
+                        SENA Ambientes
+                    </div>
+                </div>
+
                 <?php
                 // Requerir nuestra lógica de enrutamiento principal
                 require_once 'routing.php';
@@ -84,6 +95,21 @@ if (!isset($_SESSION['usuario_id'])) {
                     
                     localStorage.setItem('theme', theme);
                 });
+            }
+
+            // Mobile Sidebar Toggle
+            const mobileMenuBtn = document.getElementById('mobileMenuBtn');
+            const sidebar = document.querySelector('.sidebar');
+            const sidebarOverlay = document.getElementById('sidebarOverlay');
+
+            if (mobileMenuBtn && sidebar && sidebarOverlay) {
+                function toggleSidebar() {
+                    sidebar.classList.toggle('open');
+                    sidebarOverlay.classList.toggle('show');
+                }
+                
+                mobileMenuBtn.addEventListener('click', toggleSidebar);
+                sidebarOverlay.addEventListener('click', toggleSidebar);
             }
         });
     </script>

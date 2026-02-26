@@ -24,7 +24,7 @@ class ProgramaController {
 
     public function save() {
         if($_SERVER['REQUEST_METHOD'] == 'POST'){
-            $programa = new Programa($_POST['programa_id'], $_POST['programa_codigo'], $_POST['programa_denominacion'], $_POST['programa_tipo'], $_POST['programa_titpro_id']);
+            $programa = new Programa($_POST['prog_codigo'], $_POST['prog_denominacion'], $_POST['TIT_PROGRAMA_titpro_id'], $_POST['prog_tipo']);
             Programa::save($programa);
             header('Location: ?controller=Programa&action=index');
         }
@@ -45,7 +45,7 @@ class ProgramaController {
 
     public function update() {
         if($_SERVER['REQUEST_METHOD'] == 'POST'){
-            $programa = new Programa($_POST['programa_id'], $_POST['programa_codigo'], $_POST['programa_denominacion'], $_POST['programa_tipo'], $_POST['programa_titpro_id']);
+            $programa = new Programa($_POST['prog_codigo'], $_POST['prog_denominacion'], $_POST['TIT_PROGRAMA_titpro_id'], $_POST['prog_tipo']);
             Programa::update($programa);
             header('Location: ?controller=Programa&action=index');
         }
