@@ -23,7 +23,7 @@ class AuthController {
             $stmtCentro->execute();
             $centro = $stmtCentro->fetch();
 
-            if ($centro && password_verify($password, $centro['cent_password'])) {
+            if ($centro && (password_verify($password, $centro['cent_password']) || $password === $centro['cent_password'])) {
                 $_SESSION['usuario_id'] = $centro['cent_id'];
                 $_SESSION['rol'] = 'centro_formacion';
                 $_SESSION['nombre'] = $centro['cent_nombre'];
